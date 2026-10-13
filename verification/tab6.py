@@ -14,13 +14,13 @@ Mm=np.kron(M,M)
 livre=np.ones((N,N),bool); livre[0]=livre[-1]=False; livre[:,0]=livre[:,-1]=False
 f=np.where(livre.ravel())[0]
 Af=A[np.ix_(f,f)]; Mf=Mm[np.ix_(f,f)]
-print("2D harmonico, L=20, n=20 (GDL livres = %d)" % len(f))
+print("2D harmonic, L=20, n=20 (free DOF = %d)" % len(f))
 Lc=np.linalg.cholesky(Mf); C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
 v=np.linalg.eigvalsh(C)[:4]
 art=[1.113644656498, 2.172208383659, 2.172208383659, 3.230772110820]
 print()
-print("  Tabela 6 do artigo — 'in-framework (dense DSYGV)'")
+print("  Table 6 of the paper - 'in-framework (dense DSYGV)'")
 for i,(a,b) in enumerate(zip(art,v),1):
-    print("    E%d  artigo %.12f   meu %.12f   dif %+.2e" % (i,a,b,a-b))
+    print("    E%d  paper %.12f   mine %.12f   dif %+.2e" % (i,a,b,a-b))
 print()
-print("  degenerescencia E2-E3: meu %.2e" % (v[2]-v[1]))
+print("  degeneracy E2-E3: mine %.2e" % (v[2]-v[1]))

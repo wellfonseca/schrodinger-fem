@@ -5,7 +5,7 @@ From: debian:12
 #
 #   build, no root:  unshare -r fakeroot apptainer build --force OUT.sif elmer_schrodinger_files.def
 #   build, as root:  sudo apptainer build OUT.sif elmer_schrodinger_files.def
-#   run:             apptainer exec OUT.sif ElmerSolver caso.sif
+#   run:             apptainer exec OUT.sif ElmerSolver case.sif
 #                    apptainer exec OUT.sif gmsh caso.geo -2 -o caso.msh
 #                    apptainer exec OUT.sif ElmerGrid 14 2 caso.msh -out mesh
 #                    apptainer run  OUT.sif

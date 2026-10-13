@@ -17,15 +17,15 @@ def calc(n):
     C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
     val,vec=np.linalg.eigh(C)
     y=vec[:,0]
-    u=np.linalg.solve(Lc.T,y)          # <<< BACK-TRANSFORMACAO CORRETA
+    u=np.linalg.solve(Lc.T,y)          # <<< CORRECT BACK-TRANSFORMATION
     nrm=u@(Mf@u)
     E_rq=(u@(Af@u))/nrm
     T=(u@(Kf@u))/nrm; Vv=(u@(Vf@u))/nrm
     return val[0],E_rq,T,Vv
-print("1D harmonico — virial com as matrizes FEM (back-transformacao correta)")
-print("   n     E (eigh)       E_Rayleigh     <T>            <V>            <T>+<V>       razao")
+print("1D harmonic - virial with the FEM matrices (correct back-transformation)")
+print("   n     E (eigh)       E_Rayleigh     <T>            <V>            <T>+<V>       ratio")
 for n in [100,200,400,800,1600]:
     E,Erq,T,Vv=calc(n)
     print("  %4d  %.10f  %.10f  %.10f  %.10f  %.10f  %.8f"%(n,E,Erq,T,Vv,T+Vv,T/Vv))
 print()
-print("  exato: <T> = <V> = 0.5, razao = 1")
+print("  exact: <T> = <V> = 0.5, ratio = 1")

@@ -15,7 +15,7 @@ def E1_2d(L,h=0.25):
     Lc=np.linalg.cholesky(Mm[np.ix_(f,f)])
     C=np.linalg.solve(Lc,A[np.ix_(f,f)]); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
     return np.linalg.eigvalsh(C)[0], len(f)
-print("═══ TAMANHO DE DOMINIO a MALHA FIXA (h=0.25) — 2D harmonico, exato 1.0 ═══")
+print("=== DOMAIN SIZE AT FIXED MESH (h=0.25) - 2D harmonic, exact 1.0 ===")
 print("     L      n_f      E1                E1 - 1.0")
 for L in [12,16,20,24,28]:
     e,nf=E1_2d(L,0.25)

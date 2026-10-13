@@ -38,12 +38,12 @@ def resolve(L,n,dim,alpha=0.25):
     C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
     val=np.linalg.eigvalsh(C)[:4]
     return val,len(f)
-print("Caso                  dim   L     n    E1(meu)        E1(artigo)     dif")
-casos=[("1D harmonico",1,20.0,400,1.000572892),
-       ("2D harmonico",2,20.0,40, 1.028585384),
-       ("3D harmonico",3,12.0,14, 1.625507321)]
+print("Case                  dim   L     n    E1(mine)       E1(paper)      dif")
+casos=[("1D harmonic",1,20.0,400,1.000572892),
+       ("2D harmonic",2,20.0,40, 1.028585384),
+       ("3D harmonic",3,12.0,14, 1.625507321)]
 for nome,d,L,n,art in casos:
     v,nd=resolve(L,n,d)
     print("  %-18s %d  %5.1f %4d  %.10f  %.10f  %+.2e"%(nome,d,L,n,v[0],art,v[0]-art))
 print()
-print("  analitico ilimitado: 1D=1.0  2D=1.0  3D=1.5")
+print("  analytic (infinite domain): 1D=1.0  2D=1.0  3D=1.5")

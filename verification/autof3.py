@@ -13,7 +13,7 @@ def mede(L,n):
     psi=np.zeros(N); psi[f]=u
     psia=lambda xx: np.sqrt(2.0/L)*np.cos(np.pi*xx/L)
     dpsia=lambda xx:-np.sqrt(2.0/L)*(np.pi/L)*np.sin(np.pi*xx/L)
-    # ALINHAMENTO DE SINAL: psi(0) deve ser positivo
+    # SIGN ALIGNMENT: psi(0) must be positive
     ic=len(x)//2
     if psi[ic] < 0: psi=-psi
     L2=0.0; H1s=0.0
@@ -24,8 +24,8 @@ def mede(L,n):
             uh=float(Nv@np.array([psi[i],psi[i+1]])); duh=(psi[i+1]-psi[i])/h
             L2+=wi*J*(uh-psia(xx))**2; H1s+=wi*J*(duh-dpsia(xx))**2
     return E, np.sqrt(L2), np.sqrt(L2+H1s)
-print("  1D poco infinito L=40 -- erro da AUTOFUNCAO vs funcao exata (sinal alinhado)")
-print("     n     h        ||e||_L2     ordem    ||e||_H1     ordem")
+print("  1D infinite well L=40 -- EIGENFUNCTION error vs exact function (sign aligned)")
+print("     n     h        ||e||_L2     order    ||e||_H1     order")
 ant=None
 for n in [25,50,100,200,400]:
     E,L2,H1=mede(40.0,n); h=40.0/n

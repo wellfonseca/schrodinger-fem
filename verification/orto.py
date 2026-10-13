@@ -16,11 +16,11 @@ f=np.where(livre.ravel())[0]
 Af=A[np.ix_(f,f)]; Mf=Mm[np.ix_(f,f)]
 Lc=np.linalg.cholesky(Mf); C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
 val,y=np.linalg.eigh(C)
-U=np.linalg.solve(Lc.T,y)              # back-transformacao correta
-G=U.T@(Mf@U)                           # deve ser a identidade
+U=np.linalg.solve(Lc.T,y)              # correct back-transformation
+G=U.T@(Mf@U)                           # must be the identity
 err=np.abs(G-np.eye(G.shape[0])).max()
-print("2D harmonico (L=20, n=40): ortonormalidade M")
+print("2D harmonic (L=20, n=40): M-orthonormality")
 print("  max |psi_i^T M psi_j - delta_ij| = %.3e" % err)
-print("  4 primeiros autovalores: "+" ".join("%.10f"%v for v in val[:4]))
+print("  first 4 eigenvalues: "+" ".join("%.10f"%v for v in val[:4]))
 print()
-print("  artigo: 'the deviation from the identity is below 1e-15 in the 2D case'")
+print("  paper: 'the deviation from the identity is below 1e-15 in the 2D case'")

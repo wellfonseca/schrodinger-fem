@@ -2,47 +2,47 @@
 ! *
 ! *  SchrodingerSolver.F90
 ! *
-! *  Solver de elementos finitos para a equacao de Schrodinger estacionaria
-! *  (autoproblema de valores proprios), para 1D, 2D e 3D.
+! *  Finite element solver for the stationary Schrodinger equation
+! *  (eigenvalue problem), for 1D, 2D and 3D.
 ! *
 ! *      -lap(psi) + V(r) psi = E psi          (hbar = m = 1)
 ! *
-! *  Forma fraca (Galerkin), psi = sum_i N_i psi_i, testando com N_j:
+! *  Weak form (Galerkin), psi = sum_i N_i psi_i, testing with N_j:
 ! *
 ! *     [ int grad(Nj).grad(Ni) dO + int Nj V Ni dO ] psi_i
 ! *                         = E [ int Nj Ni dO ] psi_i
 ! *
-! *     isto e:   A psi = E M psi,   com   A = K + Ma
+! *     that is:   A psi = E M psi,   with   A = K + Ma
 ! *
-! *        K  = int grad(Ni).grad(Nj)      (rigidez)
-! *        M  = int Ni Nj                  (massa)
-! *        Ma = int Ni V Nj                (massa ponderada pelo potencial)
+! *        K  = int grad(Ni).grad(Nj)      (stiffness)
+! *        M  = int Ni Nj                  (mass)
+! *        Ma = int Ni V Nj                (potential-weighted mass matrix)
 ! *
-! *  O autoproblema generalizado e resolvido com DSYGV (LAPACK), evitando
-! *  depender do autossolver ARPACK interno do Elmer.
+! *  The generalised eigenproblem is solved with DSYGV (LAPACK), avoiding
+! *  depending on Elmer's internal ARPACK eigensolver.
 ! *
-! *  CONDICOES DE CONTORNO
-! *     Apply Dirichlet = Logical True  ->  psi = 0 nos contornos geometricos
-! *     (deteccao automatica dos nos de contorno; sem necessidade de BC no SIF)
+! *  BOUNDARY CONDITIONS
+! *     Apply Dirichlet = Logical True  ->  psi = 0 on the geometric boundaries
+! *     (automatic detection of boundary nodes; no need for a BC in the SIF)
 ! *
-! *  POTENCIAL V  (ordem de precedencia)
-! *     1) "Potential"        em Body Force   -> campo nodal; aceita
+! *  POTENTIAL V  (order of precedence)
+! *     1) "Potential"        in Body Force   -> nodal field; accepts
 ! *          - 1D:   Variable Coordinate 1        + Real MATC "expr(tx)"
 ! *          - 2D/3D: Variable Coordinate 1, Coordinate 2[, Coordinate 3]
 ! *                                              + Real MATC "expr(tx,tx(1),tx(2))"
-! *          (ATENCAO: o separador de variaveis do Elmer e VIRGULA)
-! *     2) "Potential X/Y/Z"  em Body Force   -> soma por componente
-! *     3) ausente                            -> V = 0
+! *          (WARNING: Elmer's variable separator is a COMMA)
+! *     2) "Potential X/Y/Z"  in Body Force   -> sum per component
+! *     3) absent                             -> V = 0
 ! *
-! *  UTILITARIOS
-! *     Exportar Matrizes = Logical True -> grava A, M e os GDL de Dirichlet
-! *         em triplas ASCII (<prefixo>_A.dat, _M.dat, _fixed.dat) para
-! *         resolucao externa com solver esparso/paralelo.
+! *  UTILITIES
+! *     Exportar Matrizes = Logical True -> writes A, M and the Dirichlet DOFs
+! *         in ASCII triples (<prefixo>_A.dat, _M.dat, _fixed.dat) for
+! *         external solution with a sparse/parallel solver.
 !
-! *  REFERENCIAS
-! *     docs/  (manuais do modelo, do solver e validacao)
+! *  REFERENCES
+! *     docs/  (model, solver and validation manuals)
 !
-! *  Para a documentacao completa ver:
+! *  For the full documentation see:
 ! *     schrodinger/Manual_Modelo_Schrodinger.md
 ! *     schrodinger/Manual_Solver_Schrodinger.md
 ! *
@@ -60,7 +60,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   REAL(KIND=dp) :: dt
   LOGICAL :: Transient
 !------------------------------------------------------------------------------
-!  Locais
+!  Locals
 !------------------------------------------------------------------------------
   TYPE(Element_t), POINTER :: Element
   TYPE(Nodes_t), SAVE :: Nodes
@@ -83,7 +83,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   REAL(KIND=dp) :: detJ, s, Vavg, Vuni
   TYPE(GaussIntegrationPoints_t) :: Integ
 
-  ! mapeamento de nos prescritos
+  ! mapping of prescribed nodes
   INTEGER, ALLOCATABLE :: Perm(:), MapFree(:), IdxFree(:), NodeIdx(:)
   LOGICAL, ALLOCATABLE :: Fixed(:)
   REAL(KIND=dp), ALLOCATABLE :: xmin(:), xmax(:), tol(:)
@@ -98,15 +98,15 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   IF ( .NOT. Found ) nEigen = 5
 
   CALL Info( 'SchrodingerSolver', '======================================', Level=4 )
-  CALL Info( 'SchrodingerSolver', 'Solver de Schrodinger (FEM) iniciado',  Level=4 )
-  WRITE( Message, '(A,I0)' ) 'Numero de autovalores pedidos: ', nEigen
+  CALL Info( 'SchrodingerSolver', 'Schrodinger (FEM) solver started',  Level=4 )
+  WRITE( Message, '(A,I0)' ) 'Number of requested eigenvalues: ', nEigen
   CALL Info( 'SchrodingerSolver', Message, Level=4 )
-  WRITE( Message, '(A,I0)' ) 'Dimensao do problema: ', dim
+  WRITE( Message, '(A,I0)' ) 'Problem dimension: ', dim
   CALL Info( 'SchrodingerSolver', Message, Level=4 )
   CALL Info( 'SchrodingerSolver', '======================================', Level=4 )
 
   !--------------------------------------------------------------------
-  ! 1) numeracao global dos nos e mapeamento para DOFs
+  ! 1) global numbering of nodes and mapping to DOFs
   !--------------------------------------------------------------------
   nNodes = Model % NumberOfNodes
   nDof   = nNodes
@@ -117,13 +117,13 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
 
   PsiSol => Solver % Variable
   IF ( .NOT. ASSOCIATED(PsiSol) ) THEN
-    CALL Fatal( 'SchrodingerSolver', 'Variavel da solucao nao definida.' )
+    CALL Fatal( 'SchrodingerSolver', 'Solution variable not defined.' )
   END IF
   Perm(1:nDof) = PsiSol % Perm(1:nDof)
 
   !--------------------------------------------------------------------
-  ! 2) aplicar Dirichlet por deteccao GEOMETRICA dos nos de contorno
-  !    (robusto em 1D, 2D e 3D; independe da topologia de contorno)
+  ! 2) apply Dirichlet by GEOMETRIC detection of boundary nodes
+  !    (robust in 1D, 2D and 3D; independent of the boundary topology)
   !--------------------------------------------------------------------
   ApplyDiri = ListGetLogical( Params, 'Apply Dirichlet', Found )
   IF ( .NOT. Found ) ApplyDiri = .TRUE.
@@ -140,7 +140,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
                      + Model % Nodes % y(i) * day(k) + Model % Nodes % z(i) * daz(k) )
       END DO
     END DO
-    ! tolerancia relativa ao tamanho do dominio
+    ! tolerance relative to the domain size
     DO k = 1, dim
       tol(k) = 1.0e-8_dp * MAX( 1.0_dp, ABS( xmax(k) - xmin(k) ) )
     END DO
@@ -157,25 +157,25 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
       END DO
     END DO
 
-    WRITE( Message, '(A,I0)' ) 'Nos de contorno (Dirichlet psi=0): ', COUNT(Fixed)
+    WRITE( Message, '(A,I0)' ) 'Boundary nodes (Dirichlet psi=0): ', COUNT(Fixed)
     CALL Info( 'SchrodingerSolver', Message, Level=4 )
   END IF
 
   !--------------------------------------------------------------------
-  ! 3) montagem de A = K + Ma  e  M
+  ! 3) assembly of A = K + Ma  and  M
   !--------------------------------------------------------------------
   ALLOCATE( A(nDof,nDof), B(nDof,nDof) )
   A = 0.0_dp
   B = 0.0_dp
 
   !--------------------------------------------------------------------
-  ! POTENCIAL V(x): lido como CAMPO NODAL
-  !   Ordem de precedencia:
-  !     1) Body Force  "Potential"  (aceita expressao: Variable Coordinate / MATC)
-  !     2) Material    "Potential"  (nao aceito pelo Elmer 9 — mantido por robustez)
+  ! POTENTIAL V(x): read as a NODAL FIELD
+  !   Order of precedence:
+  !     1) Body Force  "Potential"  (accepts expression: Variable Coordinate / MATC)
+  !     2) Material    "Potential"  (not accepted by Elmer 9 -- kept for robustness)
   !     3) V = 0
-  !   Usa ListGetReal com TODOS os nos (nao GetRealValues, que depende do
-  !   elemento corrente).
+  !   Uses ListGetReal with ALL nodes (not GetRealValues, which depends on the
+  !   current element).
   !--------------------------------------------------------------------
   ALLOCATE( Vnodal(nNodes), NodeIdx(nNodes), Vtmp(nNodes) )
   DO i = 1, nNodes
@@ -197,7 +197,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
           Vnodal = Vtmp
           AchouV = .TRUE.
           CALL Info( 'SchrodingerSolver', &
-               'V(x) lido como campo nodal de Body Force.', Level=4 )
+               'V(x) read as a nodal field from the Body Force.', Level=4 )
         END IF
       END IF
     END IF
@@ -212,18 +212,18 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
         Vnodal = Vtmp
         AchouV = .TRUE.
         CALL Info( 'SchrodingerSolver', &
-             'V(x) lido como campo nodal de Material.', Level=4 )
+             'V(x) read as a nodal field from the Material.', Level=4 )
       END IF
     END IF
   END IF
 
   !--------------------------------------------------------------------
-  ! (4) CONSTRUCAO DE V A PARTIR DAS COORDENADAS
+  ! (4) CONSTRUCTION OF V FROM THE COORDINATES
   !     Keywords:  "Potential X", "Potential Y", "Potential Z"
   !     V(x,y,z) = Vx + Vy + Vz
-  !     Cada termo e lido com ListGetReal (aceita "Equals Coordinate n",
-  !     expressao MATC 1D, ou valor constante) -> robusto e independente
-  !     da sintaxe MATC multidimensional.
+  !     Each term is read with ListGetReal (accepts "Equals Coordinate n",
+  !     1D MATC expression, or a constant value) -> robust and independent
+  !     of the multidimensional MATC syntax.
   !--------------------------------------------------------------------
   IF ( .NOT. AchouV ) THEN
     Fx = .FALSE.; Fy = .FALSE.; Fz = .FALSE.
@@ -243,7 +243,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
     IF ( Fx .OR. Fy .OR. Fz ) THEN
       AchouV = .TRUE.
       CALL Info( 'SchrodingerSolver', &
-           'V(x,y,z) construido de Potential X/Y/Z.', Level=4 )
+           'V(x,y,z) built from Potential X/Y/Z.', Level=4 )
     END IF
   END IF
 
@@ -255,7 +255,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
     CALL Info( 'SchrodingerSolver', Message, Level=4 )
     CALL Info( 'SchrodingerSolver', Message, Level=5 )
   ELSE
-    CALL Info( 'SchrodingerSolver', 'Sem potencial (V = 0).', Level=4 )
+    CALL Info( 'SchrodingerSolver', 'No potential (V = 0).', Level=4 )
   END IF
   DEALLOCATE( NodeIdx, Vtmp )
 
@@ -275,7 +275,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
       IF ( .NOT. ElementInfo( Element, Nodes, Integ % u(t), Integ % v(t), &
              Integ % w(t), detJ, Basis, dBasisdx ) ) CYCLE
 
-      ! potencial medio no ponto de integracao
+      ! mean potential at the integration point
       Vavg = 0.0_dp
       DO i = 1, n
         Vavg = Vavg + Basis(i) * Vnodal( Element % NodeIndexes(i) )
@@ -291,7 +291,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
       END DO
     END DO
 
-    ! montagem global
+    ! global assembly
     DO p = 1, n
       i = Element % NodeIndexes(p)
       DO q = 1, n
@@ -305,10 +305,10 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   END DO
 
   !--------------------------------------------------------------------
-  ! 4) ELIMINACAO dos DOFs de Dirichlet
-  !    Linhas/colunas dos nos prescritos sao REMOVIDAS (nao apenas
-  !    zeradas com diagonal 1, o que introduziria autovalores espurios
-  !    em lambda = 1).
+  ! 4) ELIMINATION of the Dirichlet DOFs
+  !    Rows/columns of the prescribed nodes are REMOVED (not merely
+  !    zeroed with diagonal 1, which would introduce spurious eigenvalues
+  !    at lambda = 1).
   !--------------------------------------------------------------------
   nFree = 0
   DO i = 1, nDof
@@ -316,10 +316,10 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   END DO
 
   IF ( nFree < nEigen ) THEN
-    CALL Fatal( 'SchrodingerSolver', 'DOFs livres insuficientes.' )
+    CALL Fatal( 'SchrodingerSolver', 'Not enough free DOFs.' )
   END IF
 
-  WRITE( Message, '(A,I0)' ) 'DOFs livres (apos eliminacao): ', nFree
+  WRITE( Message, '(A,I0)' ) 'Free DOFs (after elimination): ', nFree
   CALL Info( 'SchrodingerSolver', Message, Level=4 )
 
   ALLOCATE( Af(nFree,nFree), Bf(nFree,nFree), MapFree(nDof), IdxFree(nFree) )
@@ -342,7 +342,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   END DO
 
   !--------------------------------------------------------------------
-  ! 5) autoproblema generalizado reduzido:  Af x = lambda Bf x  (DSYGV)
+  ! 5) reduced generalised eigenproblem:  Af x = lambda Bf x  (DSYGV)
   !--------------------------------------------------------------------
   LWORK = MAX( 1, 3*nFree - 1 )
   ALLOCATE( EigenVals(nFree), Work(LWORK), xfree(nFree,nEigen) )
@@ -357,20 +357,20 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
     CALL Fatal( 'SchrodingerSolver', Message )
   END IF
 
-  CALL Info( 'SchrodingerSolver', 'Autoproblema resolvido (DSYGV).', Level=4 )
+  CALL Info( 'SchrodingerSolver', 'Eigenproblem solved (DSYGV).', Level=4 )
 
   !--------------------------------------------------------------------
-  ! 6) gravar autovalores e autovetores
+  ! 6) write eigenvalues and eigenvectors
   !--------------------------------------------------------------------
   nEigen = MIN( nEigen, nFree )
   CALL Info( 'SchrodingerSolver', ' ', Level=4 )
-  CALL Info( 'SchrodingerSolver', '--- AUTOVALORES (energias) ---', Level=4 )
+  CALL Info( 'SchrodingerSolver', '--- EIGENVALUES (energies) ---', Level=4 )
   DO i = 1, nEigen
     WRITE( Message, '(A,I4,A,ES20.12)' ) ' E(', i, ') = ', EigenVals(i)
     CALL Info( 'SchrodingerSolver', Message, Level=4 )
   END DO
 
-  ! primeiro modo no campo de saida (zeros no contorno)
+  ! first mode into the output field (zeros on the boundary)
   IF ( ASSOCIATED(PsiSol) ) THEN
     PsiSol % Values = 0.0_dp
     DO j = 1, nFree
@@ -379,16 +379,16 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   END IF
 
   !--------------------------------------------------------------------
-  ! 7) EXPORTAR as matrizes para resolver em PARALELO fora do Elmer
+  ! 7) EXPORT the matrices to solve in PARALLEL outside Elmer
   !
-  !     Motivo: o solver monta matrizes densas LOCAIS e usa DSYGV (serial).
-  !     Em malha particionada cada processo veria so parte dos GDL -> lixo.
-  !     Alem disso o Elmer 9.0 nao consegue particionar a malha nesta
-  !     plataforma (crash em MeshPartition -> i2s).
+  !     Reason: the solver assembles LOCAL dense matrices and uses DSYGV (serial).
+  !     On a partitioned mesh each process would see only part of the DOFs -> garbage.
+  !     Moreover Elmer 9.0 cannot partition the mesh on this
+  !     platform (crash in MeshPartition -> i2s).
   !
-  !     Solucao: exportar A, M e Ma em triplas ASCII (indices GLOBAIS) e
-  !     resolver A x = E (M+Ma) x ... na verdade  (K+Ma) x = E M x
-  !     com o driver PETSc/SLEPc ja validado (erro 1e-15).
+  !     Solution: export A, M and Ma in ASCII triples (GLOBAL indices) and
+  !     solve A x = E (M+Ma) x ... actually  (K+Ma) x = E M x
+  !     with the already validated PETSc/SLEPc driver (error 1e-15).
   !
   !     Keywords:  Exportar Matrizes = Logical True
   !                Exportar Prefixo  = String "schrod"
@@ -405,27 +405,27 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   END IF
 
   IF ( FazExport ) THEN
-    ! A = K + Ma  (operador)   |   B = M  (massa)
+    ! A = K + Ma  (operator)   |   B = M  (mass)
     CALL ExportaMatriz( 'A', A, nDof, TRIM(ExpPrefixo)//'_A.dat' )
     CALL ExportaMatriz( 'M', B, nDof, TRIM(ExpPrefixo)//'_M.dat' )
-    ! mapa de GDL fixos (Dirichlet) para o solver externo
+    ! map of fixed DOFs (Dirichlet) for the external solver
     OPEN( UNIT=77, FILE=TRIM(ExpPrefixo)//'_fixed.dat', STATUS='REPLACE', ACTION='WRITE' )
     WRITE( 77, '(I0)' ) COUNT(Fixed)
     DO i = 1, nDof
-      IF ( Fixed(i) ) WRITE( 77, '(I0)' ) i - 1      ! 0-based p/ PETSc
+      IF ( Fixed(i) ) WRITE( 77, '(I0)' ) i - 1      ! 0-based for PETSc
     END DO
     CLOSE( 77 )
     CALL Info( 'SchrodingerSolver', &
-         'Matrizes exportadas: '//TRIM(ExpPrefixo)//'_{A,M,Ma,fixed}.dat', Level=4 )
+         'Matrices exported: '//TRIM(ExpPrefixo)//'_{A,M,Ma,fixed}.dat', Level=4 )
   END IF
 
   DEALLOCATE( A, B, Af, Bf, EigenVals, Work, xfree, &
               Perm, MapFree, IdxFree, Fixed, Vnodal, xmin, xmax, tol )
-  CALL Info( 'SchrodingerSolver', 'Concluido.', Level=4 )
+  CALL Info( 'SchrodingerSolver', 'Done.', Level=4 )
 
 !------------------------------------------------------------------------------
-!  Exporta uma matriz DENSE em triplas ASCII "linha coluna valor" (0-based).
-!  Formato consumivel por scipy.io.mmread-like / PETSc MatLoad ASCII.
+!  Exports a DENSE matrix in ASCII triples "row column value" (0-based).
+!  Format readable by scipy.io.mmread-like / PETSc MatLoad ASCII.
 !------------------------------------------------------------------------------
 CONTAINS
 

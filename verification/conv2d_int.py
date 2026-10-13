@@ -25,8 +25,8 @@ def resolve(L,n):
     Lc=np.linalg.cholesky(Mf)
     C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
     return np.linalg.eigvalsh(C)[0]
-print("2D harmonico, caixa L=20, alpha=0.25.  Analitico ILIMITADO = 1.0")
-print("   n     h        E1            erro      ordem")
+print("2D harmonic, box L=20, alpha=0.25.  Analytic (infinite domain) = 1.0")
+print("   n     h        E1            error     order")
 ant=None
 for n in [10,20,30,40,60,80]:
     e=resolve(20.0,n); err=abs(e-1.0); h=20.0/n
@@ -34,4 +34,4 @@ for n in [10,20,30,40,60,80]:
     print("  %3d  %.4f  %.10f  %.3e  %s"%(n,h,e,err,"%.2f"%o if o else "  -"))
     ant=(h,err)
 print()
-print("  artigo (n=40): 1.028585384356")
+print("  paper (n=40): 1.028585384356")

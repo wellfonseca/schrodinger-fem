@@ -1,7 +1,11 @@
-# Container images: 440 MB each, and rebuildable from the .def recipe in src/
-*.sif
+# Container images are not tracked: 440 MB each, and rebuildable from the
+# .def recipe in src/. The pattern must NOT be a bare *.sif, because the Elmer
+# case input files are also named case.sif and ARE the point of this repository.
+elmer_schrodinger*.sif
+elmer_schrodinger_legivel*.sif
 
-# Elmer solver output
+# Generated Elmer mesh (regenerate with cases/*/generate_mesh.py)
+mesh/
 mesh/
 *.vtu
 *.ep

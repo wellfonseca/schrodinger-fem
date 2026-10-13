@@ -23,13 +23,13 @@ implementation for code-to-code verification.
 
 | case | dimension | domain | potential | elements | $n_f$ |
 |---|---|---|---|---|---|
-| `1D_poco_infinito` | 1D | $[-20,20]$ | $V=0$ | 250 | 249 |
-| `1D_harmonico` | 1D | $[-10,10]$ | $V=x^2$ | 400 | 399 |
+| `1D_infinite_well` | 1D | $[-20,20]$ | $V=0$ | 250 | 249 |
+| `1D_harmonic` | 1D | $[-10,10]$ | $V=x^2$ | 400 | 399 |
 | `1D_morse` | 1D | $[0,10]$ | $V=10(e^{-2a(x-x_0)}-2e^{-a(x-x_0)})$ | 400 | 399 |
-| `1D_poco_duplo` | 1D | $[-10,10]$ | $V=0.01(x^2-4)^2$ | 400 | 399 |
-| `1D_senoidal` | 1D | $[-10,10]$ | $V=0.5\cos(2\pi x/10)$ | 400 | 399 |
-| `2D_harmonico` | 2D | $[-10,10]^2$ | $V=0.25(x^2+y^2)$ | $40\times40$ | 1521 |
-| `3D_harmonico` | 3D | $[-6,6]^3$ | $V=0.25(x^2+y^2+z^2)$ | $14^3$ | 2197 |
+| `1D_double_well` | 1D | $[-10,10]$ | $V=0.01(x^2-4)^2$ | 400 | 399 |
+| `1D_sinusoidal` | 1D | $[-10,10]$ | $V=0.5\cos(2\pi x/10)$ | 400 | 399 |
+| `2D_harmonic` | 2D | $[-10,10]^2$ | $V=0.25(x^2+y^2)$ | $40\times40$ | 1521 |
+| `3D_harmonic` | 3D | $[-6,6]^3$ | $V=0.25(x^2+y^2+z^2)$ | $14^3$ | 2197 |
 
 ## Verification
 
@@ -57,7 +57,7 @@ full, with numerical evidence:
   well, where the residual of the discarded rows reaches 8 % of the amplitude.
 * **The module assembles dense local matrices**, so `ElmerSolver_mpi` returns
   wrong results with more than one rank. Use the serial `ElmerSolver`; see
-  `docs/PARALELISMO.md`.
+  `docs/PARALLELISM.md`.
 
 ## Scope and limitations
 

@@ -1,12 +1,12 @@
 // ---------------------------------------------------------------------------
-//  1D_morse  --  malha 1D estruturada (GMSH)
-//  L = 10.0  n = 400  origem x0 = 0.0
+//  1D_morse  --  structured 1D mesh (GMSH)
+//  L = 10.0  n = 400  origin x0 = 0.0
 //
-//  Gerar o .msh e converter para o formato Elmer:
+//  Generate the .msh and convert it to the Elmer format:
 //     gmsh 1D_morse.geo -2 -o 1D_morse.msh
 //     ElmerGrid 14 2 1D_morse.msh -out mesh
-//  O ElmerGrid le o .msh (Gmsh) com o codigo 14 e escreve o formato
-//  ElmerSolver (codigo 2) no diretorio 1D_morse/.
+//  ElmerGrid reads the Gmsh .msh with code 14 and writes the ElmerSolver
+//  format (code 2) into the mesh/ directory.
 // ---------------------------------------------------------------------------
 L  = 10.0;
 n  = 400;

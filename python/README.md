@@ -10,32 +10,32 @@ Elmer's own solvers).
 
 | file | purpose |
 |---|---|
-| `fem_schrodinger.py` | mesh generation, assembly, dense solve |
-| `eigsolver_esparso.py` | sparse shift-and-invert Arnoldi solve (ARPACK) |
+| `schrodinger_fem.py` | mesh generation, assembly, dense solve |
+| `sparse_eigsolver.py` | sparse shift-and-invert Arnoldi solve (ARPACK) |
 | `paralelo/` | matrix export to Matrix Market and a PETSc/SLEPc driver |
 | `casos/` | one folder per benchmark case, with `run.py` and `command.txt` |
 
 ## Running
 
 ```bash
-python3 fem_schrodinger.py --case casos/1D_harmonico/run.py
+python3 schrodinger_fem.py --case casos/1D_harmonic/run.py
 ```
 
 ## Dense against sparse
 
-`fem_schrodinger.py` solves the generalized eigenproblem directly with LAPACK,
-which costs `O(n_f^3)` time and `O(n_f^2)` memory. `eigsolver_esparso.py`
+`schrodinger_fem.py` solves the generalized eigenproblem directly with LAPACK,
+which costs `O(n_f^3)` time and `O(n_f^2)` memory. `sparse_eigsolver.py`
 factorizes `(A - sigma M)` once and iterates, costing `O(nnz)` storage. On
 identical matrices the sparse route is up to 4097 times faster and reaches
 problem sizes the dense route cannot.
 
 ```python
-from fem_schrodinger import malha_2d, montar, contorno
-from eigsolver_esparso import resolve_esparso
-dims = malha_2d(20.0, 20.0, 200, 200, -10.0, -10.0)
-A, M, gmap, X, Vv = montar(dims, lambda X: 0.25*(X[:,0]**2 + X[:,1]**2))
-bc = contorno(X, dims)
-vals, psi, interno, info = resolve_esparso(A, M, nmodos=4, nos_contorno=bc)
+from schrodinger_fem import mesh_2d, assemble, boundary
+from sparse_eigsolver import solve_sparse
+dims = mesh_2d(20.0, 20.0, 200, 200, -10.0, -10.0)
+A, M, gmap, X, Vv = assemble(dims, lambda X: 0.25*(X[:,0]**2 + X[:,1]**2))
+bc = boundary(X, dims)
+vals, psi, interior, info = solve_sparse(A, M, nmodes=4, boundary_nodes=bc)
 ```
 
 ## Note on the Dirichlet treatment

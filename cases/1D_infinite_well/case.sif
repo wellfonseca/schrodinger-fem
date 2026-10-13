@@ -1,0 +1,48 @@
+Header
+  Mesh DB "." "mesh"
+End
+
+Simulation
+  Coordinate System = Cartesian 1D
+  Simulation Type = Steady State
+  Steady State Max Iterations = 1
+  Max Output Level = 6
+End
+
+Body 1
+  Equation = 1
+  Material = 1
+  Body Force = 1
+End
+
+Material 1
+  Density = 1.0
+End
+
+Body Force 1
+  Potential = Variable Coordinate 1
+    Real MATC "0.0"
+End
+
+Equation 1
+  Active Solvers(2) = 1 2
+End
+
+Solver 1
+  Equation = "Schrodinger"
+  Procedure = "SchrodingerSolver" "SchrodingerSolver"
+  Variable = "psi"
+  Variable DOFs = 1
+  Eigen System Values = 5
+  Apply Dirichlet = Logical True
+  Linear System Solver = Direct
+  Linear System Direct Method = "umfpack"
+End
+
+Solver 2
+  Exec Solver = "After Simulation"
+  Equation = "ResultOutput"
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Output File Name = File "run"
+  Output Format = String "vtu"
+End

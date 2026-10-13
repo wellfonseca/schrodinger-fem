@@ -40,9 +40,6 @@ The build recipe is kept deliberately minimal: it downloads Elmer, copies the
 solver source in, and compiles. It does no case setup, which is done in
 `cases/`.
 
-`elmer.def` and `elmer_schrodinger.def` are earlier, more verbose variants kept
-for reference.
-
 ## The potential interface
 
 Elmer's `MATC` expressions are used to define the potential. Coordinates are
@@ -57,4 +54,4 @@ Potential = Variable Coordinate
 ```
 
 **In two and three dimensions the potential must be separable**,
-`V = sum_k V_k(x_k)`. See `docs/SINTAXE_MATC_POTENCIAL.md`.
+`V = sum_k V_k(x_k)`. See `docs/MATC_POTENTIAL_SYNTAX.md`.

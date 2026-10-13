@@ -1,7 +1,7 @@
 import numpy as np
 g2=np.array([-1/np.sqrt(3),1/np.sqrt(3)]); w2=np.array([1.0,1.0])
 def m1d(a,b):
-    """K, M e V1 = int Ni x^2 Nj  (potencial x^2, sem alpha)."""
+    """K, M and V1 = int Ni x^2 Nj  (potential x^2, without alpha)."""
     h=b-a; J=h/2; K=np.zeros((2,2));M=np.zeros((2,2));V=np.zeros((2,2))
     Vn=np.array([a*a,b*b])
     for xi,wi in zip(g2,w2):
@@ -34,9 +34,9 @@ def caso(L,n,dim,alpha):
     livre[:,0]=livre[:,-1]=False; livre[:,:,0]=livre[:,:,-1]=False
     return K+V, M, livre
 for rot,(L,n,dim,al,el) in [
-   ("1D poco infinito",(40.0,250,1,0.0,6.168583925347e-03)),
-   ("2D harmonico",    (20.0,40,2,0.25,1.028585384356e+00)),
-   ("3D harmonico",    (12.0,14,3,0.25,1.625507320678e+00))]:
+   ("1D infinite well",(40.0,250,1,0.0,6.168583925347e-03)),
+   ("2D harmonic",     (20.0,40,2,0.25,1.028585384356e+00)),
+   ("3D harmonic",     (12.0,14,3,0.25,1.625507320678e+00))]:
     A,M,livre=caso(L,n,dim,al)
     livre[0]=livre[-1]=False
     if dim>=2: livre[:,0]=livre[:,-1]=False
@@ -48,5 +48,5 @@ for rot,(L,n,dim,al,el) in [
     val,y=np.linalg.eigh(C); u=np.linalg.solve(Lc.T,y[:,0]); E=val[0]
     u=u/np.sqrt(u@(Mf@u))
     r=Af@u - E*(Mf@u)
-    print("      E=%.12f  |E-Elmer|=%.1e  res.norm=%.2e  |orto-1|=%.1e"
+    print("      E=%.12f  |E-Elmer|=%.1e  res.norm=%.2e  |ortho-1|=%.1e"
           % (E, abs(E-el), np.linalg.norm(r)/np.linalg.norm(Af@u), abs(u@(Mf@u)-1)), flush=True)

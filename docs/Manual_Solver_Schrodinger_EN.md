@@ -1,7 +1,7 @@
 # Solver Manual — `SchrodingerSolver`
 
 **Module:** `SchrodingerSolve` · **Subroutine:** `SchrodingerSolver`
-**Source file:** `01_simulacoes/schrodinger_P1_2/fonte/SchrodingerSolver.F90` (460 lines)
+**Source file:** `src/SchrodingerSolver.F90` (460 lines)
 **Language:** Fortran 90 · **Elmer version:** 9.0
 
 > This manual describes the **implementation and usage** of the solver.
@@ -152,7 +152,7 @@ In this project there is a GNU build with MUMPS:
 ~/elmer_build/install_mumps/        # installation
 ```
 
-The full build recipe is in `01_simulacoes/build_elmer/LEIA-ME.md`.
+The full build recipe is in `build_elmer/LEIA-ME.md`.
 
 ### 4.2 Compiling the solver
 
@@ -169,7 +169,7 @@ INST=$HOME/elmer_build/install_mumps
 # optional: packaged C headers (compute nodes have no /usr/include)
 export CPATH="$HOME/sysinclude/usr/include${CPATH:+:$CPATH}"
 
-cd ~/schrodinger_P1_2/build_mumps
+cd ~/build_mumps
 mpif90 -c SchrodingerSolver.F90 -o SchrodingerSolver.o \
    -fallow-argument-mismatch -DCONTIG= -DHAVE_EXECUTECOMMANDLINE \
    -DUSE_ISO_C_BINDINGS -O2 -fPIC -I$BLD/fmodules
@@ -209,7 +209,7 @@ export ES=$ELMER_HOME/bin/ElmerSolver
 ls -la $ELMER_SOLVER_HOME/lib/SchrodingerSolver.so
 
 # 2) does Elmer load the module?
-$ES caso.sif 2>&1 | grep -i "SchrodingerSolver"
+$ES case.sif 2>&1 | grep -i "SchrodingerSolver"
 # expected: Loading user function library: [SchrodingerSolver]...[SchrodingerSolver_Init0]
 ```
 
@@ -219,7 +219,7 @@ $ES caso.sif 2>&1 | grep -i "SchrodingerSolver"
 
 ```
 Header
-  Mesh DB "." "malha"
+  Mesh DB "." "mesh"
 End
 
 Simulation
@@ -267,7 +267,7 @@ End
 ### Running
 
 ```bash
-$ES caso.sif > run.log 2>&1
+$ES case.sif > run.log 2>&1
 grep "E(" run.log
 ```
 
@@ -279,31 +279,31 @@ grep "E(" run.log
 
 ```
 SchrodingerSolver: ======================================
-SchrodingerSolver: Solver de Schrodinger (FEM) iniciado
-SchrodingerSolver: Numero de autovalores pedidos: 5
-SchrodingerSolver: Dimensao do problema: 2
+SchrodingerSolver: Schrodinger solver (FEM) started
+SchrodingerSolver: Number of eigenvalues requested: 5
+SchrodingerSolver: Problem dimension: 2
 SchrodingerSolver: ======================================
 ```
 
 ### Boundary and potential
 
 ```
-SchrodingerSolver: Nos de contorno (Dirichlet psi=0): 160
-SchrodingerSolver: V(x) lido como campo nodal de Body Force.
+SchrodingerSolver: Boundary nodes (Dirichlet psi=0): 160
+SchrodingerSolver: V(x) read as a nodal field from Body Force.
 SchrodingerSolver:   V_min =   0.000000E+00   V_max =   5.000000E+01
 ```
 
 | Line | Meaning |
 |---|---|
-| `Nos de contorno` | how many nodes received `ψ = 0` (geometric detection) |
-| `V(x) lido como campo nodal de Body Force` | the potential came from `Potential` |
-| `V(x,y,z) construido de Potential X/Y/Z` | it came from the components |
-| `Sem potencial (V = 0)` | **no** potential was found |
+| `Boundary nodes` | how many nodes received `ψ = 0` (geometric detection) |
+| `V(x) read as a nodal field from Body Force` | the potential came from `Potential` |
+| `V(x,y,z) built from Potential X/Y/Z` | it came from the components |
+| `No potential (V = 0)` | **no** potential was found |
 | `V_min` / `V_max` | **quick check** that the potential is correct |
 
 > ⚠ **Always check `V_min`/`V_max`.** This solver once had a defect in which the
 > potential was read from an invalid section and `V = 0` was used **silently** —
-> see `docs/VALIDACAO_POTENCIAL.md`. The `Sem potencial (V = 0)` message was
+> see `docs/POTENTIAL_VALIDATION.md`. The `No potential (V = 0)` message was
 > added precisely to make that visible.
 
 ### Result
@@ -367,7 +367,7 @@ First line = count; following lines = indices (0-based).
 ### 7.3 Solving the exported system
 
 ```bash
-python3 01_simulacoes/schrodinger_P1_2/scripts/resolve_exportado.py schrod 5
+python3 python/parallel/resolve_exportado.py schrod 5
 ```
 
 Output verified **identical** to the internal `DSYGV`:
@@ -432,12 +432,12 @@ The solver assembles **dense local** matrices. When run with `mpirun -np ≥ 2`:
 - the result **does not crash but is wrong**: `E(1) = 3.05` instead of `1.03`
 
 In addition, Elmer 9.0 **cannot partition a mesh** on this platform (crash in
-`MeshPartition` → `i2s`), and the absence of `malha/partitioning.N/` triggers a
+`MeshPartition` → `i2s`), and the absence of `mesh/partitioning.N/` triggers a
 `SIGSEGV` in `ModelDescription.F90:2895` (NULL deref).
 
 **Conclusion: do not use `mpirun` with this solver.** For parallelism, export
 the matrices (§7) and solve with PETSc/SLEPc. Full analysis in
-`docs/PARALELISMO.md`.
+`docs/PARALLELISM.md`.
 
 ### 8.5 VTU output limited to mode 1
 
@@ -462,8 +462,8 @@ obtain all modes.
 | `Can't find independent variable` | variables separated by a **space** | use a **comma** (see Model Manual §4) |
 | `ElementMetric: Degenerate 3D element` | `Coordinate System` ≠ mesh dimension | make the two agree |
 | **No solver output at all** | `Max Output Level < 4` | raise to 5 or 6 |
-| Unexpected `Sem potencial (V = 0)` | potential not read | check the syntax (Model Manual §4) |
-| `DSYGV retornou info = N` | diagonalisation failure | check that `M` is positive definite; reduce `nEigen` |
+| Unexpected `No potential (V = 0)` | potential not read | check the syntax (Model Manual §4) |
+| `DSYGV returned info = N` | diagonalisation failure | check that `M` is positive definite; reduce `nEigen` |
 | repeated `1.0` eigenvalues | Dirichlet penalisation | already fixed (§8.3) |
 | wrong result with `mpirun` | solver is not MPI-aware | do not use `mpirun` (§8.4) |
 
@@ -483,7 +483,7 @@ obtain all modes.
 # 5 1D cases with analytical solutions; expected: 5 passed, 0 failed
 qsub -v CASO=... pbs/roda_caso_elmer.pbs
 # or the full suite:
-bash ~/schrodinger_P1_2/regressao.sh
+bash ~/regressao.sh
 ```
 
 ---
@@ -533,7 +533,7 @@ mode.
 
 Barriers and resonant states would require implementing the Sommerfeld condition
 or *complex scaling*. Methodological reference:
-`00_planejamento/referencias/` — `qsolver` (CPC 329 (2026) 110393), which uses
+`referencias/` — `qsolver` (CPC 329 (2026) 110393), which uses
 analytic mapping of the infinite domain plus polynomial collocation.
 
 ---
@@ -543,7 +543,7 @@ analytic mapping of the infinite domain plus polynomial collocation.
 ```bash
 # COMPILE (headnode)
 BLD=$HOME/elmer_build/build_mumps; INST=$HOME/elmer_build/install_mumps
-cd ~/schrodinger_P1_2/build_mumps
+cd ~/build_mumps
 mpif90 -c SchrodingerSolver.F90 -o SchrodingerSolver.o -fallow-argument-mismatch \
   -DCONTIG= -DHAVE_EXECUTECOMMANDLINE -DUSE_ISO_C_BINDINGS -O2 -fPIC -I$BLD/fmodules
 mpif90 -shared SchrodingerSolver.o -o SchrodingerSolver.so -L$BLD/fem/src -lelmersolver
@@ -554,10 +554,10 @@ export ELMER_HOME=$HOME/elmer_build/install_mumps
 export ELMER_SOLVER_HOME=$ELMER_HOME/share/elmersolver
 export LD_LIBRARY_PATH=$ELMER_HOME/lib/elmersolver:/opt/ohpc/pub/libs/gnu12/openmpi4/mumps/5.2.1/lib:/opt/ohpc/pub/libs/gnu12/openmpi4/scalapack/2.2.0/lib:$LD_LIBRARY_PATH
 cd ~/P1_2_casos/casos/<case>
-python3 gerar_malha.py
-$ELMER_HOME/bin/ElmerSolver caso.sif > run.log 2>&1
+python3 generate_mesh.py
+$ELMER_HOME/bin/ElmerSolver case.sif > run.log 2>&1
 grep "E(" run.log
-paraview malha/run_t0001.vtu
+paraview mesh/run_t0001.vtu
 ```
 
 ---

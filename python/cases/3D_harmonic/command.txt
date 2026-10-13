@@ -1,0 +1,57 @@
+# =============================================================================
+#  Case: 3D_harmonic   (own Python FEM solver)   --  3D
+#  L = 12.0   n = 14   alpha = 0.25
+#  Potential: V = 0.25*(x^2 + y^2 + z^2)
+#  Analytic reference: E_N = (2N + d)*sqrt(alpha)
+#  Expected: E_1 = 1.5
+# =============================================================================
+#
+#  Requirements: Python 3 with numpy (and scipy for the sparse route).
+#  No mesh file is needed: the mesh is built in memory.
+#
+#  1. Run the case
+#       python3 run.py
+#
+#     run.py builds the mesh, assembles, solves, and compares the computed
+#     eigenvalues against the analytic reference, printing the relative error
+#     and the mass-orthonormality check psi^T M psi = 1.
+#
+# =============================================================================
+#  WHAT run.py DOES
+# =============================================================================
+#   from schrodinger_fem import mesh_1d, assemble, boundary, solve
+#   dims = mesh_1d(L, n, x0=-L/2)
+#   A, M, gmap, X, V = assemble(dims, lambda X: ...)   # assembles K, M, M_V
+#   bc = boundary(X, dims)                             # Dirichlet nodes
+#   E, psi, interior = solve(A, M, nmodes=5, boundary_nodes=bc)
+#   print(E)                                           # eigenvalues
+#
+# =============================================================================
+#  SAVING THE EIGENFUNCTIONS
+# =============================================================================
+#  The Python solver writes no VTK/VTU. To see the eigenfunctions, use the
+#  equivalent Elmer case, which writes a .vtu for ParaView:
+#       cd ../../cases/3D_harmonic
+#       ElmerGrid 14 2 3D_harmonic.msh -out mesh
+#       ElmerSolver case.sif
+#       paraview mesh/run_t0001.vtu
+#
+#  To save the Python eigenfunctions as text (column x followed by psi_n):
+#       python3 -c "
+#   import numpy as np
+#   from schrodinger_fem import mesh_1d, assemble, boundary, solve
+#   dims = mesh_1d(40.0, 250, x0=-20.0)
+#   A, M, gm, X, V = assemble(dims, lambda X: np.zeros(len(X)))
+#   E, psi, interior = solve(A, M, nmodes=3, boundary_nodes=boundary(X, dims))
+#   np.savetxt('psi.txt', np.column_stack([X[:,0]] + [psi[:,i] for i in range(3)]))
+#   print('wrote psi.txt, columns: x psi_1 psi_2 psi_3')
+#   "
+#
+# =============================================================================
+#  TROUBLESHOOTING
+# =============================================================================
+#  1) ModuleNotFoundError numpy/scipy -> install them, or use a Python that has
+#     both.
+#  2) High resolution (large n) is slow on the dense route, which is O(n^3).
+#     For large meshes use the sparse solver in sparse_eigsolver.py.
+# =============================================================================

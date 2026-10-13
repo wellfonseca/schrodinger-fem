@@ -1,4 +1,4 @@
-ELMER SOLVER (v 9.0) STARTED AT: 2026/10/09 11:13:25
+ELMER SOLVER (v 9.0) STARTED AT: 2026/10/13 19:08:23
 ParCommInit:  Initialize #PEs:            1
 MAIN: 
 MAIN: =============================================================
@@ -16,12 +16,12 @@ MAIN: =============================================================
 MAIN: 
 MAIN: 
 MAIN: -------------------------------------
-MAIN: Reading Model: caso.sif
-LoadInputFile: Scanning input file: caso.sif
+MAIN: Reading Model: case.sif
+LoadInputFile: Scanning input file: case.sif
 LoadInputFile: Scanning only size info
 LoadInputFile: First time visiting
 LoadInputFile: Reading base load of sif file
-LoadInputFile: Loading input file: caso.sif
+LoadInputFile: Loading input file: case.sif
 LoadInputFile: Reading base load of sif file
 WARNING:: LoadInputFile: There are no BCs in the system!
 LoadInputFile: Number of Body Forces: 1
@@ -41,7 +41,7 @@ Loading user function library: [ResultOutputSolve]...[ResultOutputSolver_Init0]
 ElmerAsciiMesh: Base mesh name: ./mesh
 PermuteNodeNumbering: Performing node mapping
 MapBodiesAndBCs: Minimum initial boundary index: 1
-MapBodiesAndBCs: Maximum initial boundary index: 1
+MapBodiesAndBCs: Maximum initial boundary index: 2
 LoadMesh: Elapsed REAL time:     0.0009 (s)
 MAIN: -------------------------------------
 Loading user function library: [SchrodingerSolver]...[SchrodingerSolver_Init]
@@ -51,7 +51,7 @@ Loading user function library: [SchrodingerSolver]...[SchrodingerSolver_bulk]
 Loading user function library: [SchrodingerSolver]...[SchrodingerSolver]
 OptimizeBandwidth: ---------------------------------------------------------
 OptimizeBandwidth: Computing matrix structure for: schrodinger
-OptimizeBandwidth: Initial bandwidth for schrodinger: 400
+OptimizeBandwidth: Initial bandwidth for schrodinger: 2
 OptimizeBandwidth: Optimized bandwidth for schrodinger: 2
 OptimizeBandwidth: ---------------------------------------------------------
 Loading user function library: [ResultOutputSolve]...[ResultOutputSolver_Init]
@@ -66,24 +66,24 @@ MAIN:  Steady state iteration:            1
 MAIN: -------------------------------------
 MAIN: 
 SchrodingerSolver: ======================================
-SchrodingerSolver: Solver de Schrodinger (FEM) iniciado
-SchrodingerSolver: Numero de autovalores pedidos: 5
-SchrodingerSolver: Dimensao do problema: 1
+SchrodingerSolver: Schrodinger (FEM) solver started
+SchrodingerSolver: Number of requested eigenvalues: 5
+SchrodingerSolver: Problem dimension: 1
 SchrodingerSolver: ======================================
-SchrodingerSolver: Nos de contorno (Dirichlet psi=0): 2
-SchrodingerSolver: V(x) lido como campo nodal de Body Force.
+SchrodingerSolver: Boundary nodes (Dirichlet psi=0): 2
+SchrodingerSolver: V(x) read as a nodal field from the Body Force.
 SchrodingerSolver:   V_min =  -1.000000E+01   V_max =   1.112216E+02
 SchrodingerSolver:   V_min =  -1.000000E+01   V_max =   1.112216E+02
-SchrodingerSolver: DOFs livres (apos eliminacao): 399
-SchrodingerSolver: Autoproblema resolvido (DSYGV).
+SchrodingerSolver: Free DOFs (after elimination): 399
+SchrodingerSolver: Eigenproblem solved (DSYGV).
 SchrodingerSolver: 
-SchrodingerSolver: --- AUTOVALORES (energias) ---
-SchrodingerSolver:  E(   1) =  -8.481033786642E+00
-SchrodingerSolver:  E(   2) =  -5.818565431911E+00
+SchrodingerSolver: --- EIGENVALUES (energies) ---
+SchrodingerSolver:  E(   1) =  -8.481033786641E+00
+SchrodingerSolver:  E(   2) =  -5.818565431912E+00
 SchrodingerSolver:  E(   3) =  -3.656064809003E+00
 SchrodingerSolver:  E(   4) =  -1.991029948158E+00
-SchrodingerSolver:  E(   5) =  -7.309461344926E-01
-SchrodingerSolver: Concluido.
+SchrodingerSolver:  E(   5) =  -7.309461344850E-01
+SchrodingerSolver: Done.
 ComputeChange: SS (ITER=1) (NRM,RELC): ( 0.31584520      2.0000000     ) :: schrodinger
 ResultOutputSolver: -------------------------------------
 ResultOutputSolver: Saving with prefix: run
@@ -96,5 +96,5 @@ VtuOutputSolver: Saving number of partitions: 1
 ResultOutputSolver: -------------------------------------
 MAIN: *** Elmer Solver: ALL DONE ***
 MAIN: The end
-SOLVER TOTAL TIME(CPU,REAL):         0.23        0.47
-ELMER SOLVER FINISHED AT: 2026/10/09 11:13:26
+SOLVER TOTAL TIME(CPU,REAL):         0.23        0.48
+ELMER SOLVER FINISHED AT: 2026/10/13 19:08:23

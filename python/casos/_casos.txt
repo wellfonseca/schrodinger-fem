@@ -1,5 +1,0 @@
-1D_poco_infinito|1|40.0|250|0.0|E_n = (n.pi/L)^2|Valida a formulacao basica. Erro esperado < 1e-4.
-2D_poco_quadrado|2|10.0|40|0.0|E = pi^2(nx^2+ny^2)/L^2|Degenerescencia dupla em E2=E3 (modos 1,2 e 2,1).
-3D_poco_cubico|3|6.0|10|0.0|E = pi^2(nx^2+ny^2+nz^2)/L^2|Degenerescencia tripla em E2=E3=E4.
-2D_harmonico|2|30.0|60|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potencial V != 0. Degenerescencia N+1.
-3D_harmonico|3|12.0|14|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potencial V != 0. Degenerescencia (N+1)(N+2)/2.

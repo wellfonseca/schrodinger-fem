@@ -49,9 +49,9 @@ Elmer and the module already in place, for a machine with no Elmer installation.
 Each case under `cases/` is self-contained. For example:
 
 ```bash
-cd cases/1D_harmonico
-ElmerGrid 14 2 1D_harmonico.msh -out mesh   # Gmsh -> Elmer
-ElmerSolver caso.sif
+cd cases/1D_harmonic
+ElmerGrid 14 2 1D_harmonic.msh -out mesh   # Gmsh -> Elmer
+ElmerSolver case.sif
 ```
 
 The computed eigenvalues are written to `run.log` and a `.vtu` file is left in
@@ -62,23 +62,23 @@ The seven cases are:
 
 | case | domain | potential | elements |
 |---|---|---|---|
-| `1D_poco_infinito` | $[-20,20]$ | $V=0$ | 250 |
-| `1D_harmonico` | $[-10,10]$ | $V=x^2$ | 400 |
+| `1D_infinite_well` | $[-20,20]$ | $V=0$ | 250 |
+| `1D_harmonic` | $[-10,10]$ | $V=x^2$ | 400 |
 | `1D_morse` | $[0,10]$ | $V=10(e^{-2a(x-x_0)}-2e^{-a(x-x_0)})$, $a=0.5$, $x_0=3$ | 400 |
-| `1D_poco_duplo` | $[-10,10]$ | $V=0.01(x^2-4)^2$ | 400 |
-| `1D_senoidal` | $[-10,10]$ | $V=0.5\cos(2\pi x/10)$ | 400 |
-| `2D_harmonico` | $[-10,10]^2$ | $V=0.25(x^2+y^2)$ | $40\times40$ |
-| `3D_harmonico` | $[-6,6]^3$ | $V=0.25(x^2+y^2+z^2)$ | $14^3$ |
+| `1D_double_well` | $[-10,10]$ | $V=0.01(x^2-4)^2$ | 400 |
+| `1D_sinusoidal` | $[-10,10]$ | $V=0.5\cos(2\pi x/10)$ | 400 |
+| `2D_harmonic` | $[-10,10]^2$ | $V=0.25(x^2+y^2)$ | $40\times40$ |
+| `3D_harmonic` | $[-6,6]^3$ | $V=0.25(x^2+y^2+z^2)$ | $14^3$ |
 
 ## Quick start — the Python implementation
 
 ```bash
 cd python
-python3 fem_schrodinger.py --case casos/1D_harmonico/run.py
+python3 cases/1D_harmonic/run.py
 ```
 
-`fem_schrodinger.py` assembles the matrices and solves the dense generalized
-eigenproblem with LAPACK; `eigsolver_esparso.py` solves the same problem by
+`schrodinger_fem.py` assembles the matrices and solves the dense generalized
+eigenproblem with LAPACK; `sparse_eigsolver.py` solves the same problem by
 sparse shift-and-invert Arnoldi iteration (ARPACK), which extends the accessible
 problem size by three orders of magnitude in the number of degrees of freedom.
 
@@ -110,7 +110,7 @@ $\mathcal{E}$ gives the physical energy; see
 * **Parallel execution.** The assembly is written for a partitioned mesh, but
   the module currently assembles dense local matrices, so `ElmerSolver_mpi`
   returns wrong results with more than one rank. This is documented in
-  `docs/PARALELISMO.md`; use the serial `ElmerSolver` for correct results.
+  `docs/PARALLELISM.md`; use the serial `ElmerSolver` for correct results.
 * **The distributed route.** The exported matrices can be solved with
   PETSc/SLEPc, but a parallel sparse direct factorization was not available in
   the installation used, so no distributed timings are claimed.

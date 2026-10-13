@@ -19,8 +19,8 @@ def E1(L,n,alpha):
     Lc=np.linalg.cholesky(Mf)
     C=np.linalg.solve(Lc,Af); C=np.linalg.solve(Lc,C.T).T; C=(C+C.T)/2
     return np.linalg.eigvalsh(C)[0]
-print("1D harmonico:  V = x^2  (alpha=1),  caixa L=20  -> analitico E0 = 1.0")
-print("   n     h        E1            erro        ordem")
+print("1D harmonic:  V = x^2  (alpha=1),  box L=20  -> analytic E0 = 1.0")
+print("   n     h        E1            error       order")
 ant=None
 for n in [25,50,100,200,400,800]:
     e=E1(20.0,n,1.0); err=e-1.0; h=20.0/n
@@ -28,5 +28,5 @@ for n in [25,50,100,200,400,800]:
     print("  %4d  %.4f  %.10f  %.3e  %s"%(n,h,e,err,"%.2f"%o if o else "  -"))
     ant=(h,err)
 print()
-print("  artigo (Elmer, 400 elem): 1.0005728920")
-print("  meu  (400 elem)         : %.10f" % E1(20.0,400,1.0))
+print("  paper (Elmer, 400 elem): 1.0005728920")
+print("  mine (400 elem)         : %.10f" % E1(20.0,400,1.0))
