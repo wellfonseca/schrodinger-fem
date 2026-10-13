@@ -8,11 +8,11 @@ implementation for code-to-code verification.
 ## What is included
 
 * **`src/`** — the Fortran solver module `SchrodingerSolver.F90` and
-  `elmer_schrodinger_files.def`, an Apptainer recipe that builds Elmer with the
-  module already in place for machines with no Elmer installation.
-* **`cases/`** — seven self-contained Elmer benchmark cases, each with its Gmsh
-  mesh source, mesh, `.sif` input file, the exact commands and the output of the
-  run performed here.
+  `elmer_schrodinger_files.def`, the single Apptainer recipe that builds Elmer
+  with the module already in place for machines with no Elmer installation.
+* **`cases/`** — seven self-contained Elmer benchmark cases. Each folder holds
+  the Gmsh source, the mesh, `case.sif`, `command.txt`, the mesh generator and
+  the output of the run performed here, and nothing else.
 * **`python/`** — the independent implementation, with a dense LAPACK route and
   a sparse shift-and-invert ARPACK route, plus matrix export for PETSc/SLEPc.
 * **`docs/`** — model and solver manuals in English and Portuguese.
@@ -67,6 +67,24 @@ full, with numerical evidence:
 * No distributed timings are claimed: the exported matrices can be solved with
   PETSc/SLEPc, but a parallel sparse direct factorization was not available in
   the installation used.
+
+## Verification
+
+Every case and every script in this release was run after the final edits:
+
+* all seven Elmer cases solve and reproduce the eigenvalues reported in the
+  accompanying manuscript, from `1.000572892257` for the 1D harmonic
+  oscillator to `1.625507320661` for the ground state of the 3D one;
+* the five Python cases run and print their comparison against the analytic
+  values;
+* the verification scripts reproduce the convergence, degeneracy, virial and
+  quadrature tables of the manuscript.
+
+## A note on the mesh generator
+
+The cases can be meshed with Gmsh directly, or with `generate_mesh.py`, which
+writes the Elmer format without any external tool. `generate_geo.py` regenerates
+every `.geo` source from the case table.
 
 ## License
 
