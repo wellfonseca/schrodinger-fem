@@ -3,17 +3,14 @@
 #  Domain side L = 12.0   elements per direction n = 14   origin x0 = -6.0
 #  Potential: V = 0.25*(x^2 + y^2 + z^2)
 #  Analytic reference: E_N = (2N + d) sqrt(alpha)
-#  Expected: E_1 = 1.5
+#  Expected: E_1 = 1.5 (analytic)
 # =============================================================================
 #
 #  Requirements: Elmer (ElmerGrid, ElmerSolver) and Gmsh on the PATH.
-#  The mesh is regenerated from the Gmsh source committed here; the .msh file
-#  is already present, so step 1 is optional.
+#  The Gmsh source 3D_harmonic.geo and the mesh 3D_harmonic.msh are both committed, so
+#  step 1 is optional.
 #
 #  1. Regenerate the mesh with Gmsh (optional)
-#       python3 generate_mesh.py
-#     This writes the Elmer-format mesh into mesh/. To go through Gmsh
-#     explicitly instead:
 #       gmsh 3D_harmonic.geo -2 -o 3D_harmonic.msh
 #
 #  2. Convert the mesh to the Elmer format expected by case.sif
@@ -24,7 +21,9 @@
 #       ElmerSolver case.sif
 #
 #  4. Inspect
-#       - eigenvalues are written to run.log
+#       - the eigenvalues are printed to standard output; to keep them,
+#         redirect the run, for example
+#             ElmerSolver case.sif > run.log 2>&1
 #       - a ParaView file is written to mesh/*.vtu
 #
 #  With the container built from ../../src/elmer_schrodinger_files.def:

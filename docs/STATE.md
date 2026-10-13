@@ -11,7 +11,7 @@ Elmer 9.0 has two defects in its ARPACK eigensolver:
 
 1. **`EigenSolve.F90` does not initialize `RESID`** (the ARPACK starting vector) in
    `ArpackEigenSolve` → `info = -9` (*starting vector is zero*).
-   Root cause diagnosed and documented in `../schrodinger_P1/RELATORIO_OPCAO_B.md`.
+   Root cause diagnosed and documented in docs/PARALLELISM.md.
 2. Even with `RESID` fixed (patch applied), the *reverse communication* loop
    fails with `-9` after the first application of the operator — a second, distinct defect.
 
@@ -123,10 +123,8 @@ The dimension in the SIF **must** match that of the mesh.
 
 | File | Function |
 |---|---|
-| `fonte/SchrodingerSolver.F90` | the solver (standard Elmer interface) |
-| `cases/generate_elmer_mesh.py` | structured 1D/2D/3D mesh generator in Elmer format |
+| `src/SchrodingerSolver.F90` | the solver (standard Elmer interface) |
 | `verification/run_schrodinger.pbs` | PBS submission on the compute nodes |
-| `shares/VERIFICACAO_CRUZADA.txt` | consolidated results |
 | `shares/ELMER_caso*.log` | verbatim solver output |
 
 ### Why a mesh generator of its own

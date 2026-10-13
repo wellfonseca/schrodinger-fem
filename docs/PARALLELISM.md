@@ -143,7 +143,7 @@ format (header with version). Alternative without new code: use `MatLoad` with
 
 **(b) Rewrite the solver with native parallel assembly.** It is the "correct" path
 but expensive (3–5 days, high risk). An ideal template already exists in Elmer:
-`modules/DFTSolver.F90` → `WavefunctionSolver` (lines 218–505), which solves
+`modules/DFTSolver.F90` in the Elmer source tree → `WavefunctionSolver` (lines 218-505), which solves
 `(-½∇²+V+Vxc)ψ=Eψ` in parallel. Pattern:
 ```fortran
 CALL DefaultInitialize()
@@ -168,7 +168,7 @@ results). Only adopt (b) if the `V≡0` calibration case closes.
 
 ## 7. Retraction
 
-The document `schrodinger_P1/docs/BUG_ARPACK_DIAGNOSTICO.md` claimed that the
+An earlier internal note claimed that the
 variable `mode` was never assigned. **That is wrong** — `EigenSolve.F90:213` sets
 `Mode = 2` and line 231 sets `Mode = 3`; Fortran is case-insensitive. Document
 retracted.

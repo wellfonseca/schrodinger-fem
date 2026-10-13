@@ -54,9 +54,10 @@ ElmerGrid 14 2 1D_harmonic.msh -out mesh   # Gmsh -> Elmer
 ElmerSolver case.sif
 ```
 
-The computed eigenvalues are written to `run.log` and a `.vtu` file is left in
-`mesh/` for ParaView. `command.txt` in each case folder records the exact
-commands, and `run.log` records the result obtained here.
+The computed eigenvalues are printed to standard output and a `.vtu` file is
+left in `mesh/` for ParaView. `command.txt` in each case folder records the exact
+commands; redirect the output if you want to keep it
+(`ElmerSolver case.sif > run.log 2>&1`).
 
 The seven cases are:
 
@@ -139,9 +140,9 @@ deposit.
 ## Relationship to the manuscript
 
 Every table and figure of the manuscript can be reproduced from this
-repository: the seven cases in `cases/` with their `run.log` outputs, the Python
-implementation in `python/`, and the scripts in `verification/`. The LaTeX
-source is not distributed here.
+repository: the seven cases in `cases/` with their meshes and input files, the
+Python implementation in `python/`, and the scripts in `verification/`. The
+LaTeX source is not distributed here.
 
 ## License
 

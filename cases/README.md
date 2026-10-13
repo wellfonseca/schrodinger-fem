@@ -8,11 +8,9 @@ Seven self-contained Elmer cases. Each folder holds only the case itself:
 | `<case>.msh` | the mesh in Gmsh format, as committed |
 | `case.sif` | the Elmer input file |
 | `command.txt` | the exact commands to run the case |
-| `generate_mesh.py` | regenerates the Elmer mesh from the Gmsh source |
-| `run.log` | the output of the run performed here |
 
-`generate_elmer_mesh.py` (in this folder) is the shared library that writes the
-Elmer mesh format; `generate_geo.py` regenerates all the `.geo` sources.
+The mesh is generated with Gmsh from the `.geo` source; both the source and the
+resulting `.msh` are committed, so nothing has to be regenerated to run a case.
 
 ## Running a case
 
@@ -22,7 +20,7 @@ ElmerGrid 14 2 1D_harmonic.msh -out mesh    # 14 = Gmsh input, 2 = Elmer output
 ElmerSolver case.sif
 ```
 
-The eigenvalues are reported in `run.log` and a `.vtu` file is written to
+The eigenvalues are printed to standard output and a `.vtu` file is written to
 `mesh/` for ParaView. With the container built from `../src/`:
 
 ```bash
@@ -31,7 +29,8 @@ apptainer exec elmer_schrodinger.sif ElmerSolver case.sif
 
 ## Regenerating the meshes
 
-Either go through Gmsh explicitly, which needs Gmsh on the PATH:
+The meshes come from Gmsh; the `.geo` sources are the input and the `.msh`
+files are the result:
 
 ```bash
 cd 1D_harmonic
@@ -39,19 +38,9 @@ gmsh 1D_harmonic.geo -2 -o 1D_harmonic.msh
 ElmerGrid 14 2 1D_harmonic.msh -out mesh
 ```
 
-or use the Python generator, which writes the Elmer format directly and needs
-no external tool:
-
-```bash
-cd 1D_harmonic
-python3 generate_mesh.py
-```
-
-To regenerate every `.geo` source from the case table:
-
-```bash
-python3 generate_geo.py
-```
+The `.geo` files use transfinite lines and recombined surfaces so that the
+structured mesh matches what ElmerSolver expects, and `Mesh.MshFileVersion = 2.2`
+so that ElmerGrid reads the result with format code 14.
 
 ## The cases
 

@@ -65,7 +65,7 @@ so that it is not lost.
 
 ## 3. Regression suite — 5/5
 
-`verification/run_regression.sh` runs on the cluster, creates its own folder for each case
+`verification/confere.py` runs the same comparison locally, creates its own folder for each case
 (avoids races between files) and compares against the analytic solution.
 
 | Case | Check | Result |

@@ -11,8 +11,7 @@ implementation for code-to-code verification.
   `elmer_schrodinger_files.def`, the single Apptainer recipe that builds Elmer
   with the module already in place for machines with no Elmer installation.
 * **`cases/`** — seven self-contained Elmer benchmark cases. Each folder holds
-  the Gmsh source, the mesh, `case.sif`, `command.txt`, the mesh generator and
-  the output of the run performed here, and nothing else.
+  the Gmsh source, the mesh, `case.sif` and `command.txt`, and nothing else.
 * **`python/`** — the independent implementation, with a dense LAPACK route and
   a sparse shift-and-invert ARPACK route, plus matrix export for PETSc/SLEPc.
 * **`docs/`** — model and solver manuals in English and Portuguese.
@@ -79,12 +78,6 @@ Every case and every script in this release was run after the final edits:
   values;
 * the verification scripts reproduce the convergence, degeneracy, virial and
   quadrature tables of the manuscript.
-
-## A note on the mesh generator
-
-The cases can be meshed with Gmsh directly, or with `generate_mesh.py`, which
-writes the Elmer format without any external tool. `generate_geo.py` regenerates
-every `.geo` source from the case table.
 
 ## License
 

@@ -152,7 +152,7 @@ In this project there is a GNU build with MUMPS:
 ~/elmer_build/install_mumps/        # installation
 ```
 
-The full build recipe is in `build_elmer/LEIA-ME.md`.
+The full build recipe is in `../src/elmer_schrodinger_files.def`.
 
 ### 4.2 Compiling the solver
 
@@ -514,7 +514,7 @@ Critical points:
 - `Linear System Symmetric = Logical True` is **mandatory** so that
   `CRS_ElimSymmDirichlet` (`SolverUtils.F90:8711`) runs and
   `CRSMatrix.F90:1285` also zeroes the mass columns
-- an ideal template already exists in Elmer: `modules/DFTSolver.F90` →
+- an ideal template already exists in Elmer itself: `modules/DFTSolver.F90` →
   `WavefunctionSolver` (lines 218–505), which solves `(-½∇²+V+Vxc)ψ=Eψ`
 
 **Estimated effort:** 3–5 days. **Risk:** high — the native ARPACK eigensolver,
@@ -554,7 +554,8 @@ export ELMER_HOME=$HOME/elmer_build/install_mumps
 export ELMER_SOLVER_HOME=$ELMER_HOME/share/elmersolver
 export LD_LIBRARY_PATH=$ELMER_HOME/lib/elmersolver:/opt/ohpc/pub/libs/gnu12/openmpi4/mumps/5.2.1/lib:/opt/ohpc/pub/libs/gnu12/openmpi4/scalapack/2.2.0/lib:$LD_LIBRARY_PATH
 cd <repository>/cases/<case>
-python3 generate_mesh.py
+gmsh <case>.geo -2 -o <case>.msh
+ElmerGrid 14 2 <case>.msh -out mesh
 $ELMER_HOME/bin/ElmerSolver case.sif > run.log 2>&1
 grep "E(" run.log
 paraview mesh/run_t0001.vtu
