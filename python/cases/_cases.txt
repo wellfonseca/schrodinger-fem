@@ -1,5 +1,5 @@
-1D_infinite_well|1|40.0|250|0.0|E_n = (n.pi/L)^2|Valida a formulacao basica. Erro esperado < 1e-4.
-2D_square_well|2|10.0|40|0.0|E = pi^2(nx^2+ny^2)/L^2|Degenerescencia dupla em E2=E3 (modos 1,2 e 2,1).
-3D_cubic_well|3|6.0|10|0.0|E = pi^2(nx^2+ny^2+nz^2)/L^2|Degenerescencia tripla em E2=E3=E4.
-2D_harmonic|2|30.0|60|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potencial V != 0. Degenerescencia N+1.
-3D_harmonic|3|12.0|14|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potencial V != 0. Degenerescencia (N+1)(N+2)/2.
+1D_infinite_well|1|40.0|250|0.0|E_n = (n.pi/L)^2|Validates the basic formulation. Expected error < 1e-4.
+2D_square_well|2|10.0|40|0.0|E = pi^2(nx^2+ny^2)/L^2|Double degeneracy at E2=E3 (modes 1,2 and 2,1).
+3D_cubic_well|3|6.0|10|0.0|E = pi^2(nx^2+ny^2+nz^2)/L^2|Triple degeneracy at E2=E3=E4.
+2D_harmonic|2|30.0|60|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potential V != 0. Degeneracy N+1.
+3D_harmonic|3|12.0|14|0.25|E_n = 2.sqrt(alpha)(n + d/2)|Potential V != 0. Degeneracy (N+1)(N+2)/2.

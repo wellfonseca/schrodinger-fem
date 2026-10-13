@@ -1,7 +1,7 @@
 import os, sys, time
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'python'))
-from schrodinger_fem import mesh_2d, assemble, contorno
+from schrodinger_fem import mesh_2d, assemble, boundary
 from sparse_eigsolver import solve_sparse
 L,n=20.0,200
 dims=mesh_2d(L,L,n,n,-L/2,-L/2)

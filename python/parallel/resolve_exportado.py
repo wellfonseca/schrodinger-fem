@@ -13,7 +13,7 @@ Advantages:
   - independent of Elmer's ARPACK and of the dense DSYGV
 
 Usage:
-    python3 resolve_exportado.py <prefixo> [nmodes]
+    python3 resolve_exportado.py <prefix> [nmodes]
     python3 resolve_exportado.py schrod 5
 """
 import sys, os, time
@@ -44,17 +44,17 @@ def le_fixos(caminho):
 
 
 def main():
-    prefixo = sys.argv[1] if len(sys.argv) > 1 else 'schrod'
+    prefix = sys.argv[1] if len(sys.argv) > 1 else 'schrod'
     nmodes = int(sys.argv[2]) if len(sys.argv) > 2 else 5
 
     print("=" * 64)
     print(" Solving the system exported by the SchrodingerSolver")
     print("=" * 64)
-    print("  prefix: %s" % prefixo)
+    print("  prefix: %s" % prefix)
 
     t0 = time.time()
-    A, n, nnzA = le_matriz('%s_A.dat' % prefixo)
-    M, n2, nnzM = le_matriz('%s_M.dat' % prefixo)
+    A, n, nnzA = le_matriz('%s_A.dat' % prefix)
+    M, n2, nnzM = le_matriz('%s_M.dat' % prefix)
     assert n == n2, "dimensions of A and M are incompatible"
 
     print("  A: %d x %d, nnz = %d" % (A.shape[0], A.shape[1], A.nnz))
@@ -65,8 +65,8 @@ def main():
           % (dens_densa, dens_esparsa, dens_densa / max(dens_esparsa, 1e-9)))
 
     # eliminate the Dirichlet DOFs
-    if os.path.exists('%s_fixed.dat' % prefixo):
-        fixos = le_fixos('%s_fixed.dat' % prefixo)
+    if os.path.exists('%s_fixed.dat' % prefix):
+        fixos = le_fixos('%s_fixed.dat' % prefix)
         interior = np.setdiff1d(np.arange(n), fixos)
         print("  fixed DOFs (Dirichlet): %d  ->  free: %d" % (len(fixos), len(interior)))
         A = A[interior][:, interior].tocsr()

@@ -35,8 +35,8 @@
 ! *     3) absent                             -> V = 0
 ! *
 ! *  UTILITIES
-! *     Exportar Matrizes = Logical True -> writes A, M and the Dirichlet DOFs
-! *         in ASCII triples (<prefixo>_A.dat, _M.dat, _fixed.dat) for
+! *     Export Matrices = Logical True -> writes A, M and the Dirichlet DOFs
+! *         in ASCII triples (<prefix>_A.dat, _M.dat, _fixed.dat) for
 ! *         external solution with a sparse/parallel solver.
 !
 ! *  REFERENCES
@@ -78,7 +78,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   INTEGER :: nEigen, nDof, nFree, LWORK, info_lap, nBC
   LOGICAL :: Found, ApplyDiri, AchouV, Fx, Fy, Fz
   LOGICAL :: FazExport
-  CHARACTER(LEN=MAX_NAME_LEN) :: ExpPrefixo
+  CHARACTER(LEN=MAX_NAME_LEN) :: ExpPrefix
   TYPE(ValueList_t), POINTER :: BFList0
   REAL(KIND=dp) :: detJ, s, Vavg, Vuni
   TYPE(GaussIntegrationPoints_t) :: Integ
@@ -353,7 +353,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
               Work, LWORK, info_lap )
 
   IF ( info_lap /= 0 ) THEN
-    WRITE( Message, '(A,I0)' ) 'DSYGV retornou info = ', info_lap
+    WRITE( Message, '(A,I0)' ) 'DSYGV returned info = ', info_lap
     CALL Fatal( 'SchrodingerSolver', Message )
   END IF
 
@@ -390,33 +390,33 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   !     solve A x = E (M+Ma) x ... actually  (K+Ma) x = E M x
   !     with the already validated PETSc/SLEPc driver (error 1e-15).
   !
-  !     Keywords:  Exportar Matrizes = Logical True
-  !                Exportar Prefixo  = String "schrod"
+  !     Keywords:  Export Matrices = Logical True
+  !                Export Prefix  = String "schrod"
   !--------------------------------------------------------------------
   FazExport = .FALSE.
-  ExpPrefixo = 'schrod'
-  IF ( ListCheckPresent( Params, 'Exportar Matrizes' ) ) THEN
-    FazExport = ListGetLogical( Params, 'Exportar Matrizes', Found )
+  ExpPrefix = 'schrod'
+  IF ( ListCheckPresent( Params, 'Export Matrices' ) ) THEN
+    FazExport = ListGetLogical( Params, 'Export Matrices', Found )
     IF ( .NOT. Found ) FazExport = .FALSE.
   END IF
-  IF ( ListCheckPresent( Params, 'Exportar Prefixo' ) ) THEN
-    ExpPrefixo = ListGetString( Params, 'Exportar Prefixo', Found )
-    IF ( .NOT. Found ) ExpPrefixo = 'schrod'
+  IF ( ListCheckPresent( Params, 'Export Prefix' ) ) THEN
+    ExpPrefix = ListGetString( Params, 'Export Prefix', Found )
+    IF ( .NOT. Found ) ExpPrefix = 'schrod'
   END IF
 
   IF ( FazExport ) THEN
     ! A = K + Ma  (operator)   |   B = M  (mass)
-    CALL ExportaMatriz( 'A', A, nDof, TRIM(ExpPrefixo)//'_A.dat' )
-    CALL ExportaMatriz( 'M', B, nDof, TRIM(ExpPrefixo)//'_M.dat' )
+    CALL ExportaMatriz( 'A', A, nDof, TRIM(ExpPrefix)//'_A.dat' )
+    CALL ExportaMatriz( 'M', B, nDof, TRIM(ExpPrefix)//'_M.dat' )
     ! map of fixed DOFs (Dirichlet) for the external solver
-    OPEN( UNIT=77, FILE=TRIM(ExpPrefixo)//'_fixed.dat', STATUS='REPLACE', ACTION='WRITE' )
+    OPEN( UNIT=77, FILE=TRIM(ExpPrefix)//'_fixed.dat', STATUS='REPLACE', ACTION='WRITE' )
     WRITE( 77, '(I0)' ) COUNT(Fixed)
     DO i = 1, nDof
       IF ( Fixed(i) ) WRITE( 77, '(I0)' ) i - 1      ! 0-based for PETSc
     END DO
     CLOSE( 77 )
     CALL Info( 'SchrodingerSolver', &
-         'Matrices exported: '//TRIM(ExpPrefixo)//'_{A,M,Ma,fixed}.dat', Level=4 )
+         'Matrices exported: '//TRIM(ExpPrefix)//'_{A,M,Ma,fixed}.dat', Level=4 )
   END IF
 
   DEALLOCATE( A, B, Af, Bf, EigenVals, Work, xfree, &
@@ -451,7 +451,7 @@ CONTAINS
       END DO
     END DO
     CLOSE( un )
-    WRITE( Message, '(A,I0,A,I0)' ) '  exportada ', nnz, ' entradas em ', n
+    WRITE( Message, '(A,I0,A,I0)' ) '  exported ', nnz, ' entries in ', n
     CALL Info( 'SchrodingerSolver', TRIM(nome)//': '//TRIM(Message), Level=4 )
   END SUBROUTINE ExportaMatriz
 

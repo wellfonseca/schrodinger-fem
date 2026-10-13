@@ -240,12 +240,12 @@ SchrodingerSolver:   V_min =   0.000000E+00   V_max =   5.000000E+01
 | `Apply Dirichlet` | Logical | `True` | Impose `ψ = 0` on boundary nodes (§3) |
 | `Linear System Solver` | String | `Direct` | Keep `Direct` |
 | `Linear System Direct Method` | String | — | `"umfpack"` or `"mumps"` (if the build has MUMPS) |
-| `Exportar Matrizes` | Logical | `False` | Write `A` and `M` as ASCII triplets (§5.4) |
-| `Exportar Prefixo` | String | `schrod` | Prefix of the exported files |
+| `Export Matrices` | Logical | `False` | Write `A` and `M` as ASCII triplets (§5.4) |
+| `Export Prefix` | String | `schrod` | Prefix of the exported files |
 
-### 5.4 Matrix export (`Exportar Matrizes`)
+### 5.4 Matrix export (`Export Matrices`)
 
-When `Exportar Matrizes = Logical True`, the solver writes:
+When `Export Matrices = Logical True`, the solver writes:
 
 | File | Content | Format |
 |---|---|---|
@@ -360,7 +360,7 @@ Stated explicitly to prevent misuse.
 |---|---|
 | **Finite domain** | The domain must be truncated with `ψ = 0`. Excited states of non-binding potentials feel the walls and carry a large error (20–40% in a coarse 3D harmonic case). Increase `L` until `ψ` has decayed. |
 | **No radiation condition** | Cannot compute barrier transmission/reflection or resonant states. |
-| **Dense and serial** | `DSYGV` is `O(n²)` in memory and `O(n³)` in cost. In practice ~8000 DOF is the comfortable limit. Above that, use `Exportar Matrizes` plus a sparse solver. |
+| **Dense and serial** | `DSYGV` is `O(n²)` in memory and `O(n³)` in cost. In practice ~8000 DOF is the comfortable limit. Above that, use `Export Matrices` plus a sparse solver. |
 | **No MPI** | The solver is **not MPI-aware**: it assembles **dense local** matrices. On a partitioned mesh each process sees only part of the DOFs and the result is **wrong** (not merely slow). See `docs/PARALLELISM.md`. |
 | **Mode 1 only in the VTU** | Attempts to publish all modes via `VariableAdd` caused heap corruption; the `.vtu` carries only `psi` (mode 1). |
 | **`m = 1` convention** | See §6. |

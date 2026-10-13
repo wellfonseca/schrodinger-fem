@@ -51,5 +51,5 @@ if __name__ == '__main__':
     L = float(sys.argv[2]) if len(sys.argv) > 2 else 30.0
     n = int(sys.argv[3]) if len(sys.argv) > 3 else 100
     alpha = float(sys.argv[4]) if len(sys.argv) > 4 else 0.25
-    pasta = sys.argv[5] if len(sys.argv) > 5 else 'matrizes'
+    pasta = sys.argv[5] if len(sys.argv) > 5 else 'matrices'
     exporta(dim, L, n, alpha, pasta)

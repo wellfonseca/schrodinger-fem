@@ -13,7 +13,7 @@ def blk(ms,N):
     A=np.zeros((N,N))
     for i,m in enumerate(ms): A[i:i+2,i:i+2]+=m
     return A
-def caso(L,n,dim,alpha):
+def case(L,n,dim,alpha):
     N=n+1; x=np.linspace(-L/2,L/2,N)
     Ks=[];Ms=[];Vs=[]
     for i in range(n):
@@ -37,7 +37,7 @@ for rot,(L,n,dim,al,el) in [
    ("1D infinite well",(40.0,250,1,0.0,6.168583925347e-03)),
    ("2D harmonic",     (20.0,40,2,0.25,1.028585384356e+00)),
    ("3D harmonic",     (12.0,14,3,0.25,1.625507320678e+00))]:
-    A,M,livre=caso(L,n,dim,al)
+    A,M,livre=case(L,n,dim,al)
     livre[0]=livre[-1]=False
     if dim>=2: livre[:,0]=livre[:,-1]=False
     if dim==3: livre[:,:,0]=livre[:,:,-1]=False

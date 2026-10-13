@@ -9,7 +9,7 @@ from _common import run_case
 
 L, n = 10.0, 40
 def ana(k):
-    # niveis ordenados: 1,2,2,4,5  ->  (nx,ny) = (1,1);(1,2);(2,1);(2,2);(1,3)
+    # levels ordenados: 1,2,2,4,5  ->  (nx,ny) = (1,1);(1,2);(2,1);(2,2);(1,3)
     pares = [(1,1), (1,2), (2,1), (2,2), (1,3)]
     if k >= len(pares): return None
     a, b = pares[k]

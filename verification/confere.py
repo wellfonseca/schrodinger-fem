@@ -39,11 +39,11 @@ def resolve(L,n,dim,alpha=0.25):
     val=np.linalg.eigvalsh(C)[:4]
     return val,len(f)
 print("Case                  dim   L     n    E1(mine)       E1(paper)      dif")
-casos=[("1D harmonic",1,20.0,400,1.000572892),
+cases=[("1D harmonic",1,20.0,400,1.000572892),
        ("2D harmonic",2,20.0,40, 1.028585384),
        ("3D harmonic",3,12.0,14, 1.625507321)]
-for nome,d,L,n,art in casos:
+for name,d,L,n,art in cases:
     v,nd=resolve(L,n,d)
-    print("  %-18s %d  %5.1f %4d  %.10f  %.10f  %+.2e"%(nome,d,L,n,v[0],art,v[0]-art))
+    print("  %-18s %d  %5.1f %4d  %.10f  %.10f  %+.2e"%(name,d,L,n,v[0],art,v[0]-art))
 print()
 print("  analytic (infinite domain): 1D=1.0  2D=1.0  3D=1.5")

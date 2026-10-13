@@ -13,12 +13,12 @@ Elmer's own solvers).
 | `schrodinger_fem.py` | mesh generation, assembly, dense solve |
 | `sparse_eigsolver.py` | sparse shift-and-invert Arnoldi solve (ARPACK) |
 | `paralelo/` | matrix export to Matrix Market and a PETSc/SLEPc driver |
-| `casos/` | one folder per benchmark case, with `run.py` and `command.txt` |
+| `cases/` | one folder per benchmark case, with `run.py` and `command.txt` |
 
 ## Running
 
 ```bash
-python3 schrodinger_fem.py --case casos/1D_harmonic/run.py
+python3 cases/1D_harmonic/run.py
 ```
 
 ## Dense against sparse

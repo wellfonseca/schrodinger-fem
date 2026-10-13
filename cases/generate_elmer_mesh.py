@@ -46,7 +46,7 @@ def generate_2d(folder, Lx, Ly, nx, ny, x0=0.0, y0=0.0):
         for i in range(nx):
             elems.append((idx[(i, j)], idx[(i + 1, j)],
                          idx[(i + 1, j + 1)], idx[(i, j + 1)]))
-    # contorno: 4 lados (quad 404 de 2 nodes)
+    # boundary: 4 sides (404 quad of 2 nodes)
     bnds, t = [], 1
     for i in range(nx):                    # y = y0
         bnds.append((1, t, i + 1, 0, 202, idx[(i, 0)], idx[(i + 1, 0)])); t += 1
@@ -113,7 +113,7 @@ def generate_3d(folder, Lx, Ly, Lz, nx, ny, nz, x0=0.0, y0=0.0, z0=0.0):
 
 
 def bnd_bulk_codes(bnds):
-    """Codigos de tipo de contorno presentes."""
+    """Boundary type codes present in the mesh."""
     return sorted(set(b[4] for b in bnds))
 
 
@@ -142,7 +142,7 @@ def _write(folder, nodes, elems, bnds, bulk_code, bnd_code):
         L.append('%d %d %d %d %d %s' % (b[0], b[1], b[2], b[3], b[4],
                                         ' '.join(str(v) for v in b[5:])))
     _escreve(os.path.join(folder, 'mesh.boundary'), L)
-    print('  %s : %d nodes, %d elementos, %d faces de contorno'
+    print('  %s : %d nodes, %d elements, %d boundary faces'
           % (folder, len(nodes), len(elems), nb))
 
 

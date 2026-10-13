@@ -3,7 +3,7 @@
 # Benchmark de escalabilidade MPI — autossolver paralelo (SLEPc shift-invert)
 #
 # Uso:  bench_scaling.sh <matriz_dir> <procs...>
-# Ex.:  bench_scaling.sh ~/mtx/caso 1 2 4 8
+# Ex.:  bench_scaling.sh ~/mtx/case 1 2 4 8
 #==============================================================================
 set -u
 source /etc/profile.d/modules.sh 2>/dev/null
@@ -17,7 +17,7 @@ REF=""
 
 echo "==============================================================="
 echo " Escalabilidade MPI — SLEPc shift-invert"
-echo " matrizes: $DIR   autovalores k=$K"
+echo " matrices: $DIR   eigenvalues k=$K"
 echo "==============================================================="
 printf "  %-6s %-14s %-14s %-12s %-10s\n" "procs" "tempo_total(s)" "solucao(s)" "speedup" "efic."
 

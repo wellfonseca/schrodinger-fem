@@ -309,16 +309,16 @@ SchrodingerSolver:   V_min =   0.000000E+00   V_max =   5.000000E+01
 ### Result
 
 ```
-SchrodingerSolver: DOFs livres (apos eliminacao): 1521
-SchrodingerSolver: --- AUTOVALORES (energias) ---
+SchrodingerSolver: Free DOFs (after elimination): 1521
+SchrodingerSolver: --- EIGENVALUES (energies) ---
 SchrodingerSolver:  E(   1) =   1.028585384356E+00
 SchrodingerSolver:  E(   2) =   2.043966018888E+00
 SchrodingerSolver:  E(   3) =   2.043966018888E+00
-SchrodingerSolver: Autoproblema resolvido (DSYGV).
-SchrodingerSolver: Concluido.
+SchrodingerSolver: Eigenproblem solved (DSYGV).
+SchrodingerSolver: Done.
 ```
 
-**If `DSYGV retornou info = <value>` appears**, the diagonalisation failed.
+**If `DSYGV returned info = <value>` appears**, the diagonalisation failed.
 `info > 0` indicates QR convergence failure; `info < 0` indicates an invalid
 argument.
 
@@ -336,8 +336,8 @@ output above is suppressed — the solver appears to do nothing.
 ```
 Solver 1
   ...
-  Exportar Matrizes = Logical True
-  Exportar Prefixo = String "schrod"
+  Export Matrices = Logical True
+  Export Prefix = String "schrod"
 End
 ```
 
@@ -481,7 +481,7 @@ obtain all modes.
 
 ```bash
 # 5 1D cases with analytical solutions; expected: 5 passed, 0 failed
-qsub -v CASO=... pbs/roda_caso_elmer.pbs
+qsub -v CASE=... pbs/run_case_elmer.pbs
 # or the full suite:
 bash ~/regressao.sh
 ```
@@ -553,7 +553,7 @@ cp -f SchrodingerSolver.so $INST/share/elmersolver/lib/
 export ELMER_HOME=$HOME/elmer_build/install_mumps
 export ELMER_SOLVER_HOME=$ELMER_HOME/share/elmersolver
 export LD_LIBRARY_PATH=$ELMER_HOME/lib/elmersolver:/opt/ohpc/pub/libs/gnu12/openmpi4/mumps/5.2.1/lib:/opt/ohpc/pub/libs/gnu12/openmpi4/scalapack/2.2.0/lib:$LD_LIBRARY_PATH
-cd ~/P1_2_casos/casos/<case>
+cd <repository>/cases/<case>
 python3 generate_mesh.py
 $ELMER_HOME/bin/ElmerSolver case.sif > run.log 2>&1
 grep "E(" run.log

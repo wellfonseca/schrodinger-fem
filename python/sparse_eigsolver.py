@@ -35,9 +35,9 @@ def estimate_memory_mb(n, nnz, k):
     Dense (DSYGV): 3 n x n matrices in double = 24 n^2 bytes
     Sparse: values + indices (~12 bytes per nnz) + Arnoldi vectors (n.k)
     """
-    denso = 24.0 * n * n / 1e6
-    esparso = (12.0 * nnz + 8.0 * n * (k + 3) * 4) / 1e6
-    return denso, esparso
+    dense_mb = 24.0 * n * n / 1e6
+    sparse_mb = (12.0 * nnz + 8.0 * n * (k + 3) * 4) / 1e6
+    return dense_mb, sparse_mb
 
 
 def solve_sparse(A, M, nmodes=5, boundary_nodes=None, sigma=0.0,

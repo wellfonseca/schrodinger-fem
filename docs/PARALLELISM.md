@@ -92,10 +92,10 @@ Elmer (assembles A and M, exports triplets)  ->  sparse solver (ARPACK shift-inv
 
 ### How it works
 A section (§7) was added to `SchrodingerSolver.F90` which, if
-`Exportar Matrizes = Logical True`, writes:
-- `<prefixo>_A.dat` — operator `A = K + Ma`
-- `<prefixo>_M.dat` — mass `M`
-- `<prefixo>_fixed.dat` — Dirichlet DOFs (0-based)
+`Export Matrices = Logical True`, writes:
+- `<prefix>_A.dat` — operator `A = K + Ma`
+- `<prefix>_M.dat` — mass `M`
+- `<prefix>_fixed.dat` — Dirichlet DOFs (0-based)
 
 Format: `n n nnz` and then `i j value` (0-based), ASCII.
 
