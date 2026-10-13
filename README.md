@@ -24,7 +24,6 @@ $(M_V)_{ij} = \int N_i V N_j$, assembled with multilinear Lagrange elements.
 | `src/` | the Elmer solver module `SchrodingerSolver.F90` and the build recipe |
 | `cases/` | seven Elmer benchmark cases, each self-contained and runnable |
 | `python/` | the independent Python implementation and its cases |
-| `article/` | the LaTeX source and the compiled manuscript |
 | `docs/` | model manual and solver manual, in English and Portuguese |
 | `verification/` | scripts that reproduce the tables and figures of the article |
 
@@ -132,8 +131,17 @@ this repository:
 
 ## Citing
 
-If you use this software, please cite the manuscript and the archived release.
-See [`CITATION.cff`](CITATION.cff).
+If you use this software, please cite the archived release (see
+[`CITATION.cff`](CITATION.cff)) and the accompanying manuscript, submitted to
+the *Journal of Scientific Computing*. The manuscript is not part of this
+deposit.
+
+## Relationship to the manuscript
+
+Every table and figure of the manuscript can be reproduced from this
+repository: the seven cases in `cases/` with their `run.log` outputs, the Python
+implementation in `python/`, and the scripts in `verification/`. The LaTeX
+source is not distributed here.
 
 ## License
 

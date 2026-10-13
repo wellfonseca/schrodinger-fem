@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use schrodinger-fem, please cite the accompanying manuscript and this archived release."
+message: "If you use schrodinger-fem, please cite this archived release and the accompanying manuscript (published separately from this deposit)."
 title: "schrodinger-fem: a finite element solver for the stationary Schrödinger eigenvalue problem in Elmer"
 abstract: >-
   A finite element module for the Elmer package that solves the stationary
