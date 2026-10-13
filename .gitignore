@@ -1,0 +1,32 @@
+# Container images: 440 MB each, and rebuildable from the .def recipe in src/
+*.sif
+
+# Elmer solver output
+mesh/
+*.vtu
+*.ep
+run.log
+*.log
+!cases/*/run.log
+
+# build products
+*.o
+*.so
+*.mod
+*.bak
+*.bak[0-9]
+__pycache__/
+*.pyc
+
+# LaTeX intermediates (the .tex, .bib and .pdf are tracked)
+*.aux
+*.blg
+*.out
+*.toc
+*.spl
+article/artigo_JSC.log
+
+# Python virtual environments and caches
+.venv/
+.pylibs/
+.mplconfig/

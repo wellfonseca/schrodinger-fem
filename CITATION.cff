@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use schrodinger-fem, please cite the accompanying manuscript and this archived release."
+title: "schrodinger-fem: a finite element solver for the stationary Schrödinger eigenvalue problem in Elmer"
+abstract: >-
+  A finite element module for the Elmer package that solves the stationary
+  Schrödinger eigenvalue problem in one, two and three dimensions, together with
+  an independent Python implementation used for code-to-code verification. The
+  weak form yields the generalized symmetric eigenproblem A psi = E M psi with
+  A = K + M_V, assembled with multilinear Lagrange elements and solved either by
+  dense LAPACK factorization or by sparse shift-and-invert Arnoldi iteration.
+  The package documents two failure modes that are easy to encounter and hard to
+  diagnose: the diagonal-shift treatment of Dirichlet data, which introduces
+  spurious eigenvalues, and the dense local assembly that makes the MPI route
+  return wrong results. It ships seven benchmark cases with analytic reference
+  spectra and the scripts that reproduce every table and figure of the
+  accompanying manuscript.
+type: software
+license: GPL-3.0-or-later
+repository-code: "https://github.com/wellfonseca/schrodinger-fem"
+version: "1.0.0"
+date-released: "2026-10-13"
+keywords:
+  - Schrodinger equation
+  - eigenvalue problem
+  - finite element method
+  - Elmer
+  - sparse eigensolver
+  - ARPACK
+  - shift-and-invert
+  - code verification
+  - convergence analysis
+  - quantum mechanics
+authors:
+  - family-names: Fonseca
+    given-names: Wellington da Silva
+    orcid: "https://orcid.org/0000-0002-2602-1964"
+    affiliation: "Universidade Federal do Pará"

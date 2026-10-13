@@ -1,0 +1,71 @@
+#!/bin/bash
+#==============================================================================
+# Caso Elmer: 1D_poco_duplo   (1D, L=20.0, n=400)
+#   V = V = 0.01(x^2-4)^2
+#
+#   qsub roda_caso.pbs
+#==============================================================================
+#PBS -S /bin/bash
+#PBS -N elmer_1D_poco_duplo
+#PBS -l select=1:ncpus=4
+#PBS -l place=scatter
+#PBS -l walltime=02:00:00
+#PBS -q BIRA_Q3
+#PBS -j oe
+#PBS -m ae
+#PBS -M wfonseca@ufpa.br
+
+export LC_ALL=C
+echo "## Job $PBS_JOBID em $(date '+%d-%m-%Y %T')"
+echo "## No de execucao: $(hostname -s)"
+
+source /etc/profile.d/modules.sh 2>/dev/null
+module load gnu12 openmpi4 openblas 2>/dev/null
+
+# ---------------------------------------------------------------- build a usar
+# install_mumps tem MUMPS ligado; install_gnu nao.
+ELMER_INSTALL="${ELMER_INSTALL:-$HOME/elmer_build/install_mumps}"
+MUMPSROOT=/opt/ohpc/pub/libs/gnu12/openmpi4/mumps/5.2.1
+SCALAPACK_ROOT=/opt/ohpc/pub/libs/gnu12/openmpi4/scalapack/2.2.0
+
+export ELMER_HOME="$ELMER_INSTALL"
+export ELMER_SOLVER_HOME="$ELMER_INSTALL/share/elmersolver"
+export LD_LIBRARY_PATH="$ELMER_INSTALL/lib/elmersolver:$MUMPSROOT/lib:$SCALAPACK_ROOT/lib:$LD_LIBRARY_PATH"
+ES="$ELMER_INSTALL/bin/ElmerSolver"
+
+# O PBS executa o script de /var/spool/..., entao usa-se PBS_O_WORKDIR
+# (a pasta de onde o qsub foi chamado).
+if [ -n "${PBS_O_WORKDIR:-}" ] && [ -f "$PBS_O_WORKDIR/caso.sif" ]; then
+  CD="$PBS_O_WORKDIR"
+else
+  CD="$(cd "$(dirname "$0")" && pwd)"
+fi
+cd "$CD" || { echo "ERRO: nao entrou em $CD"; exit 1; }
+
+echo "## pasta: $CD"
+echo "## Elmer: $ELMER_INSTALL"
+
+# ---------------------------------------------------------------- malha
+if [ ! -d malha ]; then
+  echo "## gerando malha..."
+  /usr/bin/python3 gerar_malha.py
+fi
+
+# ---------------------------------------------------------------- rodar
+echo "## rodando ElmerSolver..."
+"$ES" caso.sif > run.log 2>&1
+RC=$?
+echo "## ElmerSolver exit=$RC"
+
+echo
+echo "--- potencial lido ---"
+grep -E "SchrodingerSolver:" run.log | grep -iE "V\(x|V_min|Sem potencial" | head -3
+echo
+echo "--- autovalores ---"
+grep -E "SchrodingerSolver: *E\(" run.log || {
+  echo "  NAO PRODUZIU AUTOVALORES"
+  grep -iE "ERROR|Fatal" run.log | grep -v LUA | head -6
+}
+
+echo
+echo "## Job concluido em $(date '+%d-%m-%Y %T')"

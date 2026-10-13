@@ -1,0 +1,31 @@
+schrodinger-fem
+Copyright (C) 2026 Wellington da Silva Fonseca
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+---
+
+Third-party components
+
+The Elmer solver module in src/ is a plugin for Elmer, which is distributed
+under the GNU General Public License. Elmer is developed by CSC - IT Center for
+Science (Espoo, Finland) and the Elmer community:
+
+    https://www.csc.fi/web/elmer
+    https://github.com/ElmerCSC/elmerfem
+
+The manuscript template in article/ (sn-jnl.cls, bst/) is the Springer Nature
+LaTeX template, distributed by Springer Nature for the preparation of
+submissions to its journals. It is included here so that the manuscript in
+article/ compiles as submitted; it is not covered by the licence above.
+
+The benchmark meshes in cases/ were generated with Gmsh:
+
+    https://gmsh.info

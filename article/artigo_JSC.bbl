@@ -1,0 +1,536 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{35}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Malvezzi}{2003}]{malvezzi2003}
+\begin{barticle}
+\bauthor{\bsnm{Malvezzi}, \binits{A.L.}}:
+\batitle{An introduction to numerical methods in low-dimensional quantum systems}.
+\bjtitle{Brazilian Journal of Physics}
+\bvolume{33}(\bissue{1}),
+\bfpage{55}--\blpage{72}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Courant and Hilbert}{1953}]{courant1953}
+\begin{bbook}
+\bauthor{\bsnm{Courant}, \binits{R.}},
+\bauthor{\bsnm{Hilbert}, \binits{D.}}:
+\bbtitle{Methods of Mathematical Physics, Vol.~I}.
+\bpublisher{Interscience Publishers},
+\blocation{New York}
+(\byear{1953})
+\end{bbook}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{Datta}{2005}]{datta2005}
+\begin{bbook}
+\bauthor{\bsnm{Datta}, \binits{S.}}:
+\bbtitle{Quantum Transport: Atom to Transistor}.
+\bpublisher{Cambridge University Press},
+\blocation{Cambridge}
+(\byear{2005})
+\end{bbook}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Harrison}{2005}]{harrison2005}
+\begin{bbook}
+\bauthor{\bsnm{Harrison}, \binits{P.}}:
+\bbtitle{Quantum Wells, Wires and Dots: Theoretical and Computational Physics of Semiconductor Nanostructures},
+\bedition{2nd} edn.
+\bpublisher{John Wiley \& Sons},
+\blocation{Chichester}
+(\byear{2005})
+\end{bbook}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Caruso et~al.}{2019}]{caruso2019}
+\begin{barticle}
+\bauthor{\bsnm{Caruso}, \binits{F.}},
+\bauthor{\bsnm{Oguri}, \binits{V.}},
+\bauthor{\bsnm{Silveira}, \binits{F.}}:
+\batitle{Numerical solutions for a two-dimensional quantum dot model}.
+\bjtitle{Brazilian Journal of Physics}
+\bvolume{49}(\bissue{4}),
+\bfpage{432}--\blpage{437}
+(\byear{2019})
+\doiurl{10.1007/s13538-019-00656-7}
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Strang and Fix}{1973}]{strang1973}
+\begin{bbook}
+\bauthor{\bsnm{Strang}, \binits{G.}},
+\bauthor{\bsnm{Fix}, \binits{G.J.}}:
+\bbtitle{An Analysis of the Finite Element Method}.
+\bpublisher{Prentice-Hall},
+\blocation{Englewood Cliffs, NJ}
+(\byear{1973})
+\end{bbook}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Babu{\v{s}}ka and Osborn}{1991}]{babuska1991}
+\begin{bchapter}
+\bauthor{\bsnm{Babu{\v{s}}ka}, \binits{I.}},
+\bauthor{\bsnm{Osborn}, \binits{J.}}:
+\bctitle{Eigenvalue problems}.
+In: \beditor{\bsnm{Ciarlet}, \binits{P.G.}},
+\beditor{\bsnm{Lions}, \binits{J.L.}} (eds.)
+\bbtitle{Handbook of Numerical Analysis, Vol.~II: Finite Element Methods (Part 1)},
+pp. \bfpage{641}--\blpage{787}.
+\bpublisher{North-Holland},
+\blocation{Amsterdam}
+(\byear{1991})
+\end{bchapter}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Boffi}{2010}]{boffi2010}
+\begin{barticle}
+\bauthor{\bsnm{Boffi}, \binits{D.}}:
+\batitle{Finite element approximation of eigenvalue problems}.
+\bjtitle{Acta Numerica}
+\bvolume{19},
+\bfpage{1}--\blpage{120}
+(\byear{2010})
+\doiurl{10.1017/S0962492910000012}
+\end{barticle}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Wang and Shu}{2009}]{wang2009}
+\begin{barticle}
+\bauthor{\bsnm{Wang}, \binits{W.}},
+\bauthor{\bsnm{Shu}, \binits{C.-W.}}:
+\batitle{The {WKB} local discontinuous {G}alerkin method for the simulation of {S}chr{\"o}dinger equation in a resonant tunneling diode}.
+\bjtitle{Journal of Scientific Computing}
+\bvolume{40}(\bissue{1-3}),
+\bfpage{360}--\blpage{374}
+(\byear{2009})
+\doiurl{10.1007/s10915-008-9237-1}
+\end{barticle}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Negulescu}{2008}]{negulescu2008}
+\begin{barticle}
+\bauthor{\bsnm{Negulescu}, \binits{C.}}:
+\batitle{Numerical analysis of a multiscale finite element scheme for the resolution of the stationary {S}chr{\"o}dinger equation}.
+\bjtitle{Numerische Mathematik}
+\bvolume{108}(\bissue{4}),
+\bfpage{625}--\blpage{652}
+(\byear{2008})
+\doiurl{10.1007/s00211-007-0132-8}
+\end{barticle}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Ram-Mohan}{2002}]{rammohan2002}
+\begin{bbook}
+\bauthor{\bsnm{Ram-Mohan}, \binits{L.R.}}:
+\bbtitle{Finite Element and Boundary Element Applications in Quantum Mechanics}.
+\bpublisher{Oxford University Press},
+\blocation{Oxford}
+(\byear{2002})
+\end{bbook}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Sousa et~al.}{2021}]{sousa2021}
+\begin{barticle}
+\bauthor{\bsnm{Sousa}, \binits{A.R.M.d.}},
+\bauthor{\bsnm{Nunes}, \binits{M.V.A.}},
+\bauthor{\bsnm{Fonseca}, \binits{W.d.S.}},
+\bauthor{\bsnm{Araujo}, \binits{R.C.F.}},
+\bauthor{\bsnm{Lima}, \binits{D.d.S.}}:
+\batitle{Magneto-thermo-structural analysis of power transformers under inrush and short circuit conditions}.
+\bjtitle{Energies}
+\bvolume{14}(\bissue{11}),
+\bfpage{3266}
+(\byear{2021})
+\doiurl{10.3390/en14113266}
+\end{barticle}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Lehoucq et~al.}{1998}]{lehoucq1998}
+\begin{bbook}
+\bauthor{\bsnm{Lehoucq}, \binits{R.B.}},
+\bauthor{\bsnm{Sorensen}, \binits{D.C.}},
+\bauthor{\bsnm{Yang}, \binits{C.}}:
+\bbtitle{{ARPACK} Users' Guide: Solution of Large-Scale Eigenvalue Problems with Implicitly Restarted {A}rnoldi Methods}.
+\bpublisher{Society for Industrial and Applied Mathematics},
+\blocation{Philadelphia, PA}
+(\byear{1998})
+\end{bbook}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Saad}{2011}]{saad2011}
+\begin{bbook}
+\bauthor{\bsnm{Saad}, \binits{Y.}}:
+\bbtitle{Numerical Methods for Large Eigenvalue Problems},
+\bedition{Revised} edn.
+\bpublisher{Society for Industrial and Applied Mathematics},
+\blocation{Philadelphia, PA}
+(\byear{2011})
+\end{bbook}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Davis}{2006}]{davis2006}
+\begin{bbook}
+\bauthor{\bsnm{Davis}, \binits{T.A.}}:
+\bbtitle{Direct Methods for Sparse Linear Systems}.
+\bpublisher{Society for Industrial and Applied Mathematics},
+\blocation{Philadelphia, PA}
+(\byear{2006})
+\end{bbook}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Oberkampf and Roy}{2010}]{oberkampf2010}
+\begin{bbook}
+\bauthor{\bsnm{Oberkampf}, \binits{W.L.}},
+\bauthor{\bsnm{Roy}, \binits{C.J.}}:
+\bbtitle{Verification and Validation in Scientific Computing}.
+\bpublisher{Cambridge University Press},
+\blocation{Cambridge}
+(\byear{2010})
+\end{bbook}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Roache}{1998}]{roache1998}
+\begin{bbook}
+\bauthor{\bsnm{Roache}, \binits{P.J.}}:
+\bbtitle{Verification and Validation in Computational Science and Engineering}.
+\bpublisher{Hermosa Publishers},
+\blocation{Albuquerque, NM}
+(\byear{1998})
+\end{bbook}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Salari and Knupp}{2000}]{salari2000}
+\begin{botherref}
+\oauthor{\bsnm{Salari}, \binits{K.}},
+\oauthor{\bsnm{Knupp}, \binits{P.}}:
+Code verification by the method of manufactured solutions.
+Technical Report SAND2000-1444,
+Sandia National Laboratories
+(2000).
+\doiurl{10.2172/759450}
+\end{botherref}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Gfrerer and Schanz}{2017}]{mms2017}
+\begin{barticle}
+\bauthor{\bsnm{Gfrerer}, \binits{M.H.}},
+\bauthor{\bsnm{Schanz}, \binits{M.}}:
+\batitle{Code verification examples based on the method of manufactured solutions for kirchhoff--love and reissner--mindlin shell analysis}.
+\bjtitle{Engineering with Computers}
+\bvolume{34}(\bissue{4}),
+\bfpage{775}--\blpage{785}
+(\byear{2017})
+\doiurl{10.1007/s00366-017-0572-4}
+\end{barticle}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Paes et~al.}{2003}]{paes2003}
+\begin{barticle}
+\bauthor{\bsnm{Paes}, \binits{A.C.J.}},
+\bauthor{\bsnm{Abe}, \binits{N.M.}},
+\bauthor{\bsnm{Serr{\~a}o}, \binits{V.A.}},
+\bauthor{\bsnm{Passaro}, \binits{A.}}:
+\batitle{Simulations of plasmas with electrostatic {PIC} models using the finite element method}.
+\bjtitle{Brazilian Journal of Physics}
+\bvolume{33}(\bissue{2}),
+\bfpage{411}--\blpage{417}
+(\byear{2003})
+\doiurl{10.1590/s0103-97332003000200046}
+\end{barticle}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{{CSC -- IT Center for Science}}{2024}]{elmer2024}
+\begin{botherref}
+\oauthor{\bsnm{{CSC -- IT Center for Science}}}:
+{Elmer} Finite Element Solver, version 9.0.
+\url{https://github.com/ElmerCSC/elmerfem}
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Seraide and Hai}{2002}]{parabolic2002}
+\begin{barticle}
+\bauthor{\bsnm{Seraide}, \binits{R.M.}},
+\bauthor{\bsnm{Hai}, \binits{G.-Q.}}:
+\batitle{Low-temperature electron mobility in parabolic quantum wells}.
+\bjtitle{Brazilian Journal of Physics}
+\bvolume{32}(\bissue{2a}),
+\bfpage{344}--\blpage{346}
+(\byear{2002})
+\doiurl{10.1590/s0103-97332002000200026}
+\end{barticle}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Freire and Egues}{2003}]{subband2003}
+\begin{botherref}
+\oauthor{\bsnm{Freire}, \binits{H.J.P.}},
+\oauthor{\bsnm{Egues}, \binits{J.C.}}:
+Subband structure of ii-vi modulation-doped magnetic quantum wells.
+Brazilian Journal of Physics
+\textbf{33}(1)
+(2003)
+\doiurl{10.1590/s0103-97332003000100016}
+\end{botherref}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{Anderson et~al.}{1999}]{anderson1999}
+\begin{bbook}
+\bauthor{\bsnm{Anderson}, \binits{E.}},
+\bauthor{\bsnm{Bai}, \binits{Z.}},
+\bauthor{\bsnm{Bischof}, \binits{C.}},
+\bauthor{\bsnm{Blackford}, \binits{S.}},
+\bauthor{\bsnm{Demmel}, \binits{J.}},
+\bauthor{\bsnm{Dongarra}, \binits{J.}},
+\bauthor{\bsnm{Du~Croz}, \binits{J.}},
+\bauthor{\bsnm{Greenbaum}, \binits{A.}},
+\bauthor{\bsnm{Hammarling}, \binits{S.}},
+\bauthor{\bsnm{McKenney}, \binits{A.}},
+\bauthor{\bsnm{Sorensen}, \binits{D.}}:
+\bbtitle{{LAPACK} Users' Guide},
+\bedition{3rd} edn.
+\bpublisher{Society for Industrial and Applied Mathematics},
+\blocation{Philadelphia, PA}
+(\byear{1999})
+\end{bbook}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Ericsson and Ruhe}{1980}]{ericsson1980}
+\begin{barticle}
+\bauthor{\bsnm{Ericsson}, \binits{T.}},
+\bauthor{\bsnm{Ruhe}, \binits{A.}}:
+\batitle{The spectral transformation {L}anczos method for the numerical solution of large sparse generalized symmetric eigenvalue problems}.
+\bjtitle{Mathematics of Computation}
+\bvolume{35}(\bissue{152}),
+\bfpage{1251}--\blpage{1268}
+(\byear{1980})
+\doiurl{10.2307/2006390}
+\end{barticle}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{Balay et~al.}{2023}]{petsc2023}
+\begin{botherref}
+\oauthor{\bsnm{Balay}, \binits{S.}},
+\oauthor{\bsnm{Abhyankar}, \binits{S.}},
+\oauthor{\bsnm{Adams}, \binits{M.F.}},
+\oauthor{\bsnm{Benson}, \binits{S.}},
+\oauthor{\bsnm{Brown}, \binits{J.}},
+\oauthor{\bsnm{Brune}, \binits{P.}},
+\oauthor{\bsnm{Buschelman}, \binits{K.}},
+\oauthor{\bsnm{Constantinescu}, \binits{E.}},
+\oauthor{\bsnm{Dalcin}, \binits{L.}},
+\oauthor{\bsnm{Dener}, \binits{A.}}, et al.:
+{PETSc/TAO} users manual.
+Technical Report ANL-21/11, Revision 3.19,
+Argonne National Laboratory
+(2023).
+\doiurl{10.2172/1968587}
+\end{botherref}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{Hernandez et~al.}{2005}]{hernandez2005}
+\begin{barticle}
+\bauthor{\bsnm{Hernandez}, \binits{V.}},
+\bauthor{\bsnm{Roman}, \binits{J.E.}},
+\bauthor{\bsnm{Vidal}, \binits{V.}}:
+\batitle{{SLEPc}: A scalable and flexible toolkit for the solution of eigenvalue problems}.
+\bjtitle{ACM Transactions on Mathematical Software}
+\bvolume{31}(\bissue{3}),
+\bfpage{351}--\blpage{362}
+(\byear{2005})
+\doiurl{10.1145/1089014.1089019}
+\end{barticle}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Geuzaine and Remacle}{2009}]{geuzaine2009}
+\begin{barticle}
+\bauthor{\bsnm{Geuzaine}, \binits{C.}},
+\bauthor{\bsnm{Remacle}, \binits{J.-F.}}:
+\batitle{{Gmsh}: A three-dimensional finite element mesh generator with built-in pre- and post-processing facilities}.
+\bjtitle{International Journal for Numerical Methods in Engineering}
+\bvolume{79}(\bissue{11}),
+\bfpage{1309}--\blpage{1331}
+(\byear{2009})
+\doiurl{10.1002/nme.2579}
+\end{barticle}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{Tabora et~al.}{2022}]{tabora2022}
+\begin{barticle}
+\bauthor{\bsnm{Tabora}, \binits{J.M.n.}},
+\bauthor{\bsnm{Tshoombe}, \binits{B.K.}},
+\bauthor{\bsnm{Fonseca}, \binits{W.d.S.}},
+\bauthor{\bsnm{Tostes}, \binits{M.E.d.L.}},
+\bauthor{\bsnm{Matos}, \binits{E.O.d.}},
+\bauthor{\bsnm{Bezerra}, \binits{U.H.}},
+\bauthor{\bsnm{Silva}, \binits{M.d.O.e.}}:
+\batitle{Virtual modeling and experimental validation of the line-start permanent magnet motor in the presence of harmonics}.
+\bjtitle{Energies}
+\bvolume{15}(\bissue{22}),
+\bfpage{8603}
+(\byear{2022})
+\doiurl{10.3390/en15228603}
+\end{barticle}
+\endbibitem
+
+%%% 30
+\bibitem[\protect\citeauthoryear{Huang et~al.}{2020}]{bandstruct2020}
+\begin{botherref}
+\oauthor{\bsnm{Huang}, \binits{T.-M.}},
+\oauthor{\bsnm{Li}, \binits{T.}},
+\oauthor{\bsnm{Lin}, \binits{J.-W.}},
+\oauthor{\bsnm{Lin}, \binits{W.-W.}},
+\oauthor{\bsnm{Tian}, \binits{H.}}:
+Structure-preserving methods for computing complex band structures of three dimensional photonic crystals.
+Journal of Scientific Computing
+\textbf{83}(2)
+(2020)
+\doiurl{10.1007/s10915-020-01220-1}
+\end{botherref}
+\endbibitem
+
+%%% 31
+\bibitem[\protect\citeauthoryear{Claus et~al.}{2014}]{coos2014}
+\begin{barticle}
+\bauthor{\bsnm{Claus}, \binits{M.}},
+\bauthor{\bsnm{Mothes}, \binits{S.}},
+\bauthor{\bsnm{Blawid}, \binits{S.}},
+\bauthor{\bsnm{Schr{\"o}ter}, \binits{M.}}:
+\batitle{Coos: a wave-function based schr{\"o}dinger--poisson solver for ballistic nanotube transistors}.
+\bjtitle{Journal of Computational Electronics}
+\bvolume{13}(\bissue{3}),
+\bfpage{689}--\blpage{700}
+(\byear{2014})
+\doiurl{10.1007/s10825-014-0588-6}
+\end{barticle}
+\endbibitem
+
+%%% 32
+\bibitem[\protect\citeauthoryear{Salehi and Granpayeh}{2020}]{polar2020}
+\begin{barticle}
+\bauthor{\bsnm{Salehi}, \binits{M.}},
+\bauthor{\bsnm{Granpayeh}, \binits{N.}}:
+\batitle{Numerical solution of the schr{\"o}dinger equation in polar coordinates using the finite-difference time-domain method}.
+\bjtitle{Journal of Computational Electronics}
+\bvolume{19}(\bissue{1}),
+\bfpage{91}--\blpage{102}
+(\byear{2020})
+\doiurl{10.1007/s10825-020-01446-0}
+\end{barticle}
+\endbibitem
+
+%%% 33
+\bibitem[\protect\citeauthoryear{Li et~al.}{2023}]{sav2023}
+\begin{botherref}
+\oauthor{\bsnm{Li}, \binits{D.}},
+\oauthor{\bsnm{Li}, \binits{X.}},
+\oauthor{\bsnm{Sun}, \binits{H.-w.}}:
+Optimal error estimates of sav crank--nicolson finite element method for the coupled nonlinear schr{\"o}dinger equation.
+Journal of Scientific Computing
+\textbf{97}(3)
+(2023)
+\doiurl{10.1007/s10915-023-02384-2}
+\end{botherref}
+\endbibitem
+
+%%% 34
+\bibitem[\protect\citeauthoryear{Liu}{2020}]{liu2020}
+\begin{botherref}
+\oauthor{\bsnm{Liu}, \binits{C.-S.}}:
+A positivity preserving iterative method for finding the ground states of saturable nonlinear schr{\"o}dinger equations.
+Journal of Scientific Computing
+\textbf{84}(3)
+(2020)
+\doiurl{10.1007/s10915-020-01297-8}
+\end{botherref}
+\endbibitem
+
+%%% 35
+\bibitem[\protect\citeauthoryear{Fonseca et~al.}{2021}]{fonseca2021}
+\begin{barticle}
+\bauthor{\bsnm{Fonseca}, \binits{W.d.S.}},
+\bauthor{\bsnm{Ara\'{u}jo}, \binits{R.C.F.}},
+\bauthor{\bsnm{Silva}, \binits{M.d.O.e.}},
+\bauthor{\bsnm{Cruz}, \binits{D.O.d.A.}}:
+\batitle{Analysis of the magnetohydrodynamic behavior of the fully developed flow of conducting fluid}.
+\bjtitle{Energies}
+\bvolume{14}(\bissue{9}),
+\bfpage{2463}
+(\byear{2021})
+\doiurl{10.3390/en14092463}
+\end{barticle}
+\endbibitem
+
+\end{thebibliography}
