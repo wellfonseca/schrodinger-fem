@@ -17,6 +17,7 @@ abstract: >-
 type: software
 license: GPL-3.0-or-later
 repository-code: "https://github.com/wellfonseca/schrodinger-fem"
+doi: "10.5281/zenodo.23366621"
 version: "1.0.0"
 date-released: "2026-10-13"
 keywords:
