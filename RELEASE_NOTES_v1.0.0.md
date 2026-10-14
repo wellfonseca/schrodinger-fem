@@ -14,7 +14,7 @@ implementation for code-to-code verification.
   the Gmsh source, the mesh, `case.sif` and `command.txt`, and nothing else.
 * **`python/`** — the independent implementation, with a dense LAPACK route and
   a sparse shift-and-invert ARPACK route, plus matrix export for PETSc/SLEPc.
-* **`docs/`** — model and solver manuals in English and Portuguese.
+* **`docs/`** — the model manual and the solver manual (English).
 * **`verification/`** — the scripts that reproduce every numerical table of the
   accompanying manuscript.
 
@@ -24,7 +24,7 @@ implementation for code-to-code verification.
 |---|---|---|---|---|---|
 | `1D_infinite_well` | 1D | $[-20,20]$ | $V=0$ | 250 | 249 |
 | `1D_harmonic` | 1D | $[-10,10]$ | $V=x^2$ | 400 | 399 |
-| `1D_morse` | 1D | $[0,10]$ | $V=10(e^{-2a(x-x_0)}-2e^{-a(x-x_0)})$ | 400 | 399 |
+| `1D_morse` | 1D | $[0,10]$ | $V=10(e^{-2a(x-x_0)}-2e^{-a(x-x_0)})$, $a=0.5$, $x_0=3$ | 400 | 399 |
 | `1D_double_well` | 1D | $[-10,10]$ | $V=0.01(x^2-4)^2$ | 400 | 399 |
 | `1D_sinusoidal` | 1D | $[-10,10]$ | $V=0.5\cos(2\pi x/10)$ | 400 | 399 |
 | `2D_harmonic` | 2D | $[-10,10]^2$ | $V=0.25(x^2+y^2)$ | $40\times40$ | 1521 |
@@ -34,12 +34,18 @@ implementation for code-to-code verification.
 
 Four independent checks, all reproducible from this repository:
 
-1. **Analytic benchmarks** — the seven cases above against closed-form spectra.
+1. **Analytic benchmarks** — the seven cases above, against closed-form spectra.
+   Every case was re-run after the final edits, from `1.000572892257` for the 1D
+   harmonic oscillator to `1.625507320661` for the ground state of the 3D one.
 2. **Convergence order** — $\mathcal{O}(h^2)$ for eigenvalues, in 1D, 2D and 3D.
 3. **Code-to-code** — the Elmer module and the Python code agree to about
    $4\times10^{-13}$ in relative terms on identical meshes.
 4. **Structural invariants** — degeneracies, mass-orthonormality, and the virial
    relation.
+
+The five Python cases run and print their comparison against the analytic values,
+and the scripts in `verification/` reproduce the convergence, degeneracy, virial
+and quadrature tables of the manuscript.
 
 ## Documented failure modes
 
@@ -66,18 +72,6 @@ full, with numerical evidence:
 * No distributed timings are claimed: the exported matrices can be solved with
   PETSc/SLEPc, but a parallel sparse direct factorization was not available in
   the installation used.
-
-## Verification
-
-Every case and every script in this release was run after the final edits:
-
-* all seven Elmer cases solve and reproduce the eigenvalues reported in the
-  accompanying manuscript, from `1.000572892257` for the 1D harmonic
-  oscillator to `1.625507320661` for the ground state of the 3D one;
-* the five Python cases run and print their comparison against the analytic
-  values;
-* the verification scripts reproduce the convergence, degeneracy, virial and
-  quadrature tables of the manuscript.
 
 ## License
 
