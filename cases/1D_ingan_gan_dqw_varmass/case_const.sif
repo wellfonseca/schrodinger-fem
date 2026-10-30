@@ -1,0 +1,54 @@
+Header
+  Mesh DB "." "mesh"
+End
+
+Simulation
+  Coordinate System = Cartesian 1D
+  Simulation Type = Steady State
+  Steady State Max Iterations = 1
+  Max Output Level = 6
+End
+
+Body 1
+  Equation = 1
+  Material = 1
+  Body Force = 1
+End
+
+Material 1
+  Density = 1.0
+End
+
+! V(x) = V0 in the barriers, 0 in the wells, plus a linear field term.
+! InGaN x=0.15 -> Eg=2.540 eV, dEg=0.880 eV, V0 = 0.7*dEg = 0.616 eV
+Body Force 1
+  ! wells [3.5,6.5] and [9.5,12.5]; barrier elsewhere
+  Potential = Variable Coordinate 1
+    Real MATC "16.17*( (tx<3.53) + ((tx>6.53)*(tx<9.53)) + (tx>12.53) )"
+  ! constant effective mass 0.19, for comparison with the variable case
+  Effective Mass = Variable Coordinate 1
+    Real MATC "0.19"
+End
+
+Equation 1
+  Active Solvers(2) = 1 2
+End
+
+Solver 1
+  Equation = "Schrodinger"
+  Procedure = "SchrodingerSolver" "SchrodingerSolver"
+  Variable = "psi"
+  Variable DOFs = 1
+  Eigen System Values = 6
+  Apply Dirichlet = Logical True
+  Linear System Solver = Direct
+  Linear System Direct Method = "umfpack"
+End
+
+Solver 2
+  Equation = "ResultOutput"
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
+  Output File Name = "run"
+  Output Format = "vtu"
+  Exec Solver = Always
+End

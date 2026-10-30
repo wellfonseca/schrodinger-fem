@@ -21,3 +21,20 @@ Run:
 
 Reference eigenvalues (n = 2560, dimensionless):
   E1 = 0.26689617    E2 = 0.33005601
+
+Variable effective mass
+-----------------------
+The case is also run with a position-dependent mass, Eq. (4) of the
+reference: m* = 0.178 m0 in the wells and 0.190 m0 in the barriers
+(x = 0.15, m*_InN = 0.11, m*_GaN = 0.19). Add to Body Force 1:
+
+  Effective Mass = Variable Coordinate 1
+    Real MATC "0.190 - 0.012*( (tx>=3.53)*(tx<=6.53) + (tx>=9.53)*(tx<=12.53) )"
+
+and set the potential in the m0-scaled unit Em0 = hbar^2/(2 m0 L^2) =
+0.0381 eV, i.e. V0 = 0.616/0.0381 = 16.17.
+
+Levels (meV), Elmer vs the independent Python code:
+
+  constant m* = 0.19 :  112.838  113.786  414.684   (Python 112.83 113.78 414.66)
+  variable m*        :  116.192  117.216  427.171   (Python 116.19 117.20 427.06)

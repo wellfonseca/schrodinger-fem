@@ -71,6 +71,7 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   REAL(KIND=dp), ALLOCATABLE :: EigenVals(:), Work(:), xfree(:,:)
   REAL(KIND=dp), ALLOCATABLE :: Vtmp(:)
   REAL(KIND=dp), ALLOCATABLE :: Basis(:), dBasisdx(:,:), Vnodal(:)
+  REAL(KIND=dp), ALLOCATABLE :: Mstar(:), Mtmp(:)
   REAL(KIND=dp), ALLOCATABLE :: Stiff(:,:), Mass(:,:), PotMass(:,:)
 
   CHARACTER(LEN=MAX_NAME_LEN) :: Name
@@ -80,7 +81,8 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
   LOGICAL :: FazExport
   CHARACTER(LEN=MAX_NAME_LEN) :: ExpPrefix
   TYPE(ValueList_t), POINTER :: BFList0
-  REAL(KIND=dp) :: detJ, s, Vavg, Vuni
+  REAL(KIND=dp) :: detJ, s, Vavg, Vuni, Mavg, Minv
+  LOGICAL :: AchouM
   TYPE(GaussIntegrationPoints_t) :: Integ
 
   ! mapping of prescribed nodes
@@ -203,6 +205,35 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
     END IF
   END IF
 
+  !--------------------------------------------------------------------
+  ! EFFECTIVE MASS m*(x): optional NODAL FIELD, default 1
+  !   Keyword "Effective Mass" in the Body Force, same MATC syntax as
+  !   "Potential". The stiffness becomes  int (1/m*) grad N . grad N ,
+  !   which is the hermitian form  -(hbar^2/2) div[(1/m*) grad psi].
+  !--------------------------------------------------------------------
+  ALLOCATE( Mstar(nNodes), Mtmp(nNodes) )
+  Mstar = 1.0_dp
+  AchouM = .FALSE.
+  IF ( Model % NumberOfBodyForces > 0 ) THEN
+    BFList => Model % BodyForces(1) % Values
+    IF ( ASSOCIATED(BFList) ) THEN
+      IF ( ListCheckPresent( BFList, 'Effective Mass' ) ) THEN
+        Mtmp = ListGetReal( BFList, 'Effective Mass', nNodes, NodeIdx, Found )
+        IF ( Found ) THEN
+          Mstar = Mtmp
+          AchouM = .TRUE.
+          CALL Info( 'SchrodingerSolver', &
+               'm*(x) read as a nodal field from the Body Force.', Level=4 )
+        END IF
+      END IF
+    END IF
+  END IF
+  IF ( .NOT. AchouM ) THEN
+    CALL Info( 'SchrodingerSolver', &
+         'm*(x) not given: constant mass, 1/m* = 1.', Level=4 )
+  END IF
+  DEALLOCATE( Mtmp )
+
   ! (2) Material
   IF ( .NOT. AchouV ) THEN
     Material => Model % Materials(1) % Values
@@ -281,9 +312,16 @@ SUBROUTINE SchrodingerSolver( Model, Solver, dt, Transient )
         Vavg = Vavg + Basis(i) * Vnodal( Element % NodeIndexes(i) )
       END DO
 
+      ! mean effective mass at the integration point, then 1/m*
+      Mavg = 0.0_dp
+      DO i = 1, n
+        Mavg = Mavg + Basis(i) * Mstar( Element % NodeIndexes(i) )
+      END DO
+      Minv = 1.0_dp / Mavg
+
       DO p = 1, n
         DO q = 1, n
-          Stiff(p,q) = Stiff(p,q) + s * detJ * &
+          Stiff(p,q) = Stiff(p,q) + s * detJ * Minv * &
               SUM( dBasisdx(p,1:dim) * dBasisdx(q,1:dim) )
           Mass(p,q)  = Mass(p,q)  + s * detJ * Basis(p) * Basis(q)
           PotMass(p,q) = PotMass(p,q) + s * detJ * Vavg * Basis(p) * Basis(q)
