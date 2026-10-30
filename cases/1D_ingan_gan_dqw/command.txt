@@ -1,0 +1,23 @@
+1D_ingan_gan_dqw  --  symmetric InGaN/GaN double quantum well
+
+Benchmark taken from
+  En-nadir, R. et al., J. Comput. Electron. 21 (2022) 111-118,
+  doi:10.1007/s10825-021-01830-4
+
+Structure: well 3 nm | barrier 3 nm | well 3 nm, centred in a 16 nm
+domain. Conduction-band barrier V0 = 0.616 eV, from Eg(InN) = 0.78 eV,
+Eg(GaN) = 3.42 eV, bowing b = 3.8 eV, x_In = 0.15 and a 70/30 band
+offset. Constant effective mass m* = 0.19 m0, L = 1 nm, so the energy
+unit is E = hbar^2/(2 m* L^2) = 0.2005 eV.
+
+The well interfaces are deliberately placed off the mesh nodes: when an
+interface coincides with a node the observed convergence order drops to
+one (see Section 8.4 of the manuscript).
+
+Run:
+  gmsh 1D_ingan_gan_dqw.geo -2 -o 1D_ingan_gan_dqw.msh
+  ElmerGrid 14 2 1D_ingan_gan_dqw.msh -out mesh
+  ElmerSolver case.sif
+
+Reference eigenvalues (n = 2560, dimensionless):
+  E1 = 0.26689617    E2 = 0.33005601
